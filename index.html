@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lumix | image editor</title>
+    <meta name="theme-color" content="#365CFF" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23f4f4f4'/%3E%3Cpath d='M16 16h24c0 17.673-14.327 32-32 32V24c0-4.418 3.582-8 8-8Z' fill='%230A1026'/%3E%3Cpath d='M40 40h8v8H24c0-13.255 10.745-24 24-24v16Z' fill='%230A1026'/%3E%3C/svg%3E"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23f4f4f4'/%3E%3Cpath d='M16 16h24c0 17.673-14.327 32-32 32V24c0-4.418 3.582-8 8-8Z' fill='%230A1026'/%3E%3Cpath d='M40 40h8v8H24c0-13.255 10.745-24 24-24v16Z' fill='%230A1026'/%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body data-theme="light">
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <div id="cursorDot" class="cursor-dot"></div>
+
+    <input id="globalImageInput" type="file" accept="image/*" hidden />
+
+    <div class="app-shell">
+      <div class="promo-strip">
+        <p>Ship faster with Lumix Pro tools, moving blocks, live effects, and premium editing workflows.</p>
+      </div>
+
+      <header class="topbar">
+        <a href="#" class="brand" data-route="landing">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>Lumix</span>
+        </a>
+
+        <nav class="topnav" aria-label="Primary">
+          <button class="nav-link" data-route="landing">Home</button>
+          <button class="nav-link nav-link-editor" data-route="editor">Editor</button>
+          <button class="nav-link" data-route="effects">Effects</button>
+          <button class="nav-link" data-route="workflow">Workflow</button>
+          <button class="nav-link" data-route="contact">Contact</button>
+        </nav>
+
+        <div class="top-actions">
+          <button id="searchButton" class="icon-chip" type="button" aria-label="Search">⌕</button>
+          <button id="themeToggle" class="icon-chip" type="button" aria-label="Theme">◌</button>
+          <button id="topImportButton" class="nav-button secondary">Edit</button>
+          <button id="authButton" class="nav-button primary">Sign In</button>
+        </div>
+      </header>
+
+      <main>
+        <section class="landing-view route-view" data-view="landing">
+          <section class="hero">
+            <div class="hero-center">
+              <div class="launch-pill">
+                <span class="launch-pill-tag">Update</span>
+                <span>Introducing moving blocks and premium image editing</span>
+              </div>
+
+              <p class="eyebrow hero-eyebrow">Lumix / image editor</p>
+              <h1>Edit, transform, and export images with <span class="highlight-word">professional</span> effects.</h1>
+              <p class="lead hero-lead">
+                Lumix is a browser-based image editor with modern visual effects, live canvas preview,
+                project saving, dashboard history, and a polished interface inspired by high-end UI systems.
+              </p>
+
+              <div class="hero-actions centered">
+                <button class="button primary" data-route="editor">Open Editor</button>
+                <button class="button secondary" data-route="dashboard">Browse Dashboard</button>
+              </div>
+
+              <div class="trust-row">
+                <div class="avatar-stack">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <p><strong>Trusted by 1000+ users</strong> building sharper creative visuals.</p>
+              </div>
+
+              <div class="moving-blocks">
+                <div class="blocks-track">
+                  <span>Pixel Studio</span>
+                  <span>Glitch Engine</span>
+                  <span>ASCII Canvas</span>
+                  <span>Neon Glow</span>
+                  <span>Thermal Map</span>
+                  <span>Blueprint Draft</span>
+                  <span>Selective Color</span>
+                  <span>VHS Retro</span>
+                  <span>Pixel Studio</span>
+                  <span>Glitch Engine</span>
+                  <span>ASCII Canvas</span>
+                  <span>Neon Glow</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div class="pattern-band bottom"></div>
+
+          <section class="homepage-grid-shell" id="effects">
+            <div class="homepage-grid">
+              <article class="home-card home-input-card reveal">
+                <p class="panel-title">Editor Access</p>
+                <button class="mock-input" data-route="editor">
+                  <span class="mock-icon">+</span>
+                  <span>Start editing an image now</span>
+                </button>
+              </article>
+
+              <article class="home-card home-actions-card reveal">
+                <div class="pill-row">
+                  <button class="showcase-pill" data-route="workflow">Our Flow</button>
+                  <button class="showcase-pill strong" data-route="contact">Contact me</button>
+                  <button class="showcase-pill filled" data-route="editor">Open Editor</button>
+                </div>
+                <div class="pill-row">
+                  <button class="showcase-pill dot" data-route="effects">Effects</button>
+                  <button class="showcase-pill outline" data-route="dashboard">Dashboard</button>
+                </div>
+              </article>
+
+              <article class="home-card home-statement-card reveal">
+                <div class="statement-copy">
+                  <p class="eyebrow">Creative system</p>
+                  <h2>Make the image feel yours.</h2>
+                  <p class="statement-note">
+                    Build clean pixel looks, glitch edits, neon treatments, and polished exports from one focused browser editor.
+                  </p>
+                </div>
+              </article>
+
+              <article class="home-card home-upload-card reveal">
+                <button class="showcase-upload" data-route="editor">
+                  <strong>Click to upload</strong>
+                  <span>or drag and drop</span>
+                  <small>PNG, JPG, WebP</small>
+                </button>
+                <div class="upload-footnote">
+                  <span>No install</span>
+                  <span>Live preview</span>
+                  <span>PNG export</span>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="testimonial-section">
+            <div class="testimonial-header reveal">
+              <div>
+                <p class="eyebrow">Reviews</p>
+                <h2>Used by designers, creators, and studios who want sharper visual edits without slow workflows.</h2>
+              </div>
+              <div class="testimonial-summary">
+                <strong>4.9/5</strong>
+                <span>Average creator rating across saved projects, exports, and repeat editing sessions.</span>
+              </div>
+            </div>
+
+            <div class="testimonial-strip">
+              <article class="testimonial-card reveal">
+                <div class="review-rating" aria-label="5 stars">★★★★★</div>
+                <div class="testimonial-head">
+                  <span class="testimonial-avatar">K</span>
+                  <div>
+                    <strong>Karan</strong>
+                    <span>@lumixcreator</span>
+                  </div>
+                </div>
+                <p>Fast, sharp, and actually fun to use. The editor feels premium instead of bulky.</p>
+                <div class="review-tags">
+                  <span>Pixel Studio</span>
+                  <span>12 exports</span>
+                </div>
+              </article>
+              <article class="testimonial-card featured reveal">
+                <div class="review-rating" aria-label="5 stars">★★★★★</div>
+                <div class="testimonial-head">
+                  <span class="testimonial-avatar active">S</span>
+                  <div>
+                    <strong>Sayan</strong>
+                    <span>@lumixstudio</span>
+                  </div>
+                </div>
+                <p>The live preview is the best part. I can dial the look in quickly and save polished versions right away.</p>
+                <div class="review-tags">
+                  <span>Glitch</span>
+                  <span>Saved projects</span>
+                </div>
+              </article>
+              <article class="testimonial-card reveal">
+                <div class="review-rating" aria-label="5 stars">★★★★★</div>
+                <div class="testimonial-head">
+                  <span class="testimonial-avatar">D</span>
+                  <div>
+                    <strong>Dikshit</strong>
+                    <span>@lumixwork</span>
+                  </div>
+                </div>
+                <p>Clean layout, strong image tools, and easy exporting. It feels much more focused than a heavy editor.</p>
+                <div class="review-tags">
+                  <span>Blueprint</span>
+                  <span>Creative workflow</span>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="showcase-strip">
+            <article class="showcase-tile reveal">
+              <div class="showcase-grid"></div>
+              <img class="showcase-image" src="./pixel-card.svg" alt="Pixel blocks preview" />
+              <h3>Pixel Blocks</h3>
+            </article>
+            <article class="showcase-tile reveal feature-blue">
+              <div class="showcase-grid"></div>
+              <img class="showcase-image" src="./glitch-card.svg" alt="Glitch blocks preview" />
+              <h3>Glitch Blocks</h3>
+            </article>
+            <article class="showcase-tile reveal feature-green">
+              <div class="showcase-grid"></div>
+              <img class="showcase-image" src="./color-card.svg" alt="Color blocks preview" />
+              <h3>Color Blocks</h3>
+            </article>
+          </section>
+
+          <section class="workflow-board" id="workflow">
+            <article class="workflow-board-main reveal">
+              <p class="eyebrow">Studio workflow</p>
+              <h2>Upload once, shape the look live, and export polished image assets in minutes.</h2>
+              <div class="workflow-chip-row">
+                <span>Drag & drop import</span>
+                <span>Real-time sliders</span>
+                <span>Project saves</span>
+                <span>PNG exports</span>
+              </div>
+              <div class="workflow-meter-row">
+                <div class="workflow-meter">
+                  <strong>14+</strong>
+                  <span>live effects</span>
+                </div>
+                <div class="workflow-meter">
+                  <strong>1 click</strong>
+                  <span>saved project restore</span>
+                </div>
+                <div class="workflow-meter">
+                  <strong>Fast</strong>
+                  <span>canvas feedback and export flow</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="workflow-board-side reveal">
+              <p class="eyebrow">Editor rhythm</p>
+              <div class="workflow-line-list">
+                <div>
+                  <strong>Import</strong>
+                  <span>Bring in JPG, PNG, or WebP and jump directly into the editor.</span>
+                </div>
+                <div>
+                  <strong>Adjust</strong>
+                  <span>Tune filters, color, detail, and contrast with instant visual feedback.</span>
+                </div>
+                <div>
+                  <strong>Export</strong>
+                  <span>Download clean PNG output or keep your project saved inside the dashboard.</span>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <div class="pattern-band"></div>
+
+          <section class="content-section contact-section" id="contact">
+            <div class="contact-banner">
+              <div class="contact-banner-head">
+                <div class="contact-banner-avatar">
+                  <span>You</span>
+                </div>
+                <div>
+                  <strong>Got a project?</strong>
+                  <p>Send the brief through the form below and keep everything inside Lumix.</p>
+                </div>
+              </div>
+              <div class="contact-banner-actions">
+                <button id="focusContactFormButton" class="button secondary" type="button">Project form</button>
+                <button class="button primary" data-route="editor">Open editor</button>
+              </div>
+            </div>
+
+            <form class="contact-form-card" id="contactForm">
+              <div class="field-grid two-up">
+                <label>
+                  <span>Name</span>
+                  <input type="text" id="contactName" placeholder="Your name" />
+                </label>
+                <label>
+                  <span>Email</span>
+                  <input type="email" id="contactEmail" placeholder="name@studio.com" />
+                </label>
+              </div>
+              <div class="field-grid two-up">
+                <label>
+                  <span>Project type</span>
+                  <select id="contactProject">
+                    <option>Brand campaign</option>
+                    <option>Creator package</option>
+                    <option>Studio workflow</option>
+                    <option>Custom editor</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Timeline</span>
+                  <input type="text" id="contactTimeline" placeholder="e.g. 2 weeks" />
+                </label>
+              </div>
+              <label>
+                <span>Project brief</span>
+                <textarea id="contactMessage" rows="5" placeholder="Tell us what you want to build."></textarea>
+              </label>
+              <div class="inline-actions">
+                <button class="button primary" type="submit">Submit project inquiry</button>
+                <p id="contactStatus" class="inline-status"></p>
+              </div>
+            </form>
+
+            <div class="newsletter-card">
+              <h2>Sign up for our newsletter</h2>
+              <form class="newsletter-form" id="newsletterForm">
+                <label class="newsletter-input-wrap">
+                  <input type="email" id="newsletterEmail" placeholder="Your Email *" />
+                </label>
+                <button class="newsletter-submit" type="submit">→</button>
+              </form>
+              <p id="newsletterStatus" class="inline-status"></p>
+            </div>
+
+            <div class="footer-links">
+              <button id="searchFooterButton" class="icon-chip" type="button">⌕</button>
+              <button id="themeFooterButton" class="icon-chip" type="button">◌</button>
+              <a class="nav-button primary" href="https://github.com" target="_blank" rel="noreferrer">Github</a>
+            </div>
+          </section>
+        </section>
+
+        <section class="dashboard-view route-view is-hidden" data-view="dashboard">
+          <div class="workspace-shell">
+            <aside class="dashboard-sidebar">
+              <div class="sidebar-brand">
+                <span class="brand-mark" aria-hidden="true"></span>
+                <div>
+                  <strong>lumix</strong>
+                  <span>Image Workspace</span>
+                </div>
+              </div>
+
+              <nav class="sidebar-nav" aria-label="Dashboard">
+                <button class="sidebar-link is-active" data-dashboard-view="home">Home</button>
+                <button class="sidebar-link" data-dashboard-view="projects">My Projects</button>
+                <button class="sidebar-link" data-dashboard-route="editor">Editor</button>
+                <button class="sidebar-link" data-route="effects">Filters</button>
+                <button class="sidebar-link" data-dashboard-view="settings">Settings</button>
+                <button class="sidebar-link" id="logoutButton">Logout</button>
+              </nav>
+
+              <div class="profile-chip">
+                <button id="profileToggle" class="profile-summary">
+                  <span id="profileInitial" class="avatar">L</span>
+                  <span class="profile-text">
+                    <strong id="profileName">lumix User</strong>
+                    <small>Free</small>
+                  </span>
+                </button>
+                <div id="profileMenu" class="profile-menu is-hidden">
+                  <button data-dashboard-view="settings">Profile</button>
+                  <button data-dashboard-view="settings">Settings</button>
+                  <button id="profileLogout">Logout</button>
+                </div>
+              </div>
+            </aside>
+
+            <div class="dashboard-content">
+              <section class="dashboard-panel" data-dashboard-panel="home">
+                <div class="dashboard-header">
+                  <div>
+                    <p class="eyebrow">Dashboard</p>
+                    <h2 id="dashboardGreeting">Welcome back.</h2>
+                  </div>
+                  <div class="header-actions">
+                    <button class="button secondary" data-route="editor">New Edit</button>
+                    <button class="button primary" id="dashboardImportButton">Import from Device</button>
+                  </div>
+                </div>
+
+                <section class="dashboard-hero-card">
+                  <div>
+                    <p class="eyebrow">Workspace overview</p>
+                    <h3>Track your edits, exports, and recent creative activity in one place.</h3>
+                  </div>
+                  <div class="dashboard-hero-metrics">
+                    <div>
+                      <strong>Live</strong>
+                      <span>Project history sync</span>
+                    </div>
+                    <div>
+                      <strong>Fast</strong>
+                      <span>Open saved edits instantly</span>
+                    </div>
+                    <div>
+                      <strong>Clean</strong>
+                      <span>Focus on filters and output</span>
+                    </div>
+                  </div>
+                </section>
+
+                <div class="stats-grid">
+                  <article class="stat-card">
+                    <span>Total Images Edited</span>
+                    <strong id="statImages">0</strong>
+                  </article>
+                  <article class="stat-card">
+                    <span>Favorite Filter</span>
+                    <strong id="statFavorite">None yet</strong>
+                  </article>
+                  <article class="stat-card">
+                    <span>Total Exports</span>
+                    <strong id="statExports">0</strong>
+                  </article>
+                  <article class="stat-card">
+                    <span>Days Active</span>
+                    <strong id="statDays">0</strong>
+                  </article>
+                </div>
+
+                <div class="quick-actions">
+                  <button class="quick-card" data-route="editor">
+                    <strong>New Edit</strong>
+                    <span>Open the editor with your last preferences.</span>
+                  </button>
+                  <button class="quick-card" data-route="effects">
+                    <strong>Browse Filters</strong>
+                    <span>Review the full effect catalog and use cases.</span>
+                  </button>
+                  <button class="quick-card" id="importUrlButton">
+                    <strong>Import from URL</strong>
+                    <span>Load a remote image link into the editor.</span>
+                  </button>
+                </div>
+
+                <div class="dashboard-columns">
+                  <section class="stack-card">
+                    <div class="section-row">
+                      <h3>Recent Projects</h3>
+                      <button class="ghost-link" data-dashboard-view="projects">View all</button>
+                    </div>
+                    <div id="recentProjectsGrid" class="recent-projects"></div>
+                  </section>
+
+                  <section class="stack-card">
+                    <div class="section-row">
+                      <h3>Recent Activity</h3>
+                    </div>
+                    <div id="activityFeed" class="activity-feed"></div>
+                  </section>
+                </div>
+              </section>
+
+              <section class="dashboard-panel is-hidden" data-dashboard-panel="projects">
+                <div class="dashboard-header compact">
+                  <div>
+                    <p class="eyebrow">Projects</p>
+                    <h2>Saved edits</h2>
+                  </div>
+                </div>
+                <div id="allProjectsGrid" class="project-grid"></div>
+              </section>
+
+              <section class="dashboard-panel is-hidden" data-dashboard-panel="settings">
+                <div class="dashboard-header compact">
+                  <div>
+                    <p class="eyebrow">Settings</p>
+                    <h2>Preferences</h2>
+                  </div>
+                </div>
+
+                <form id="settingsForm" class="settings-card">
+                  <div class="field-grid two-up">
+                    <label>
+                      <span>Display name</span>
+                      <input type="text" id="settingsDisplayName" />
+                    </label>
+                    <label>
+                      <span>Default filter</span>
+                      <select id="settingsDefaultFilter"></select>
+                    </label>
+                  </div>
+                  <div class="field-grid two-up">
+                    <label>
+                      <span>Theme</span>
+                      <select id="settingsTheme">
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                      </select>
+                    </label>
+                    <label>
+                      <span>Project history</span>
+                      <button class="button secondary full-width" id="clearHistoryButton" type="button">
+                        Clear history
+                      </button>
+                    </label>
+                  </div>
+                  <div class="inline-actions">
+                    <button class="button primary" type="submit">Save settings</button>
+                    <p id="settingsStatus" class="inline-status"></p>
+                  </div>
+                </form>
+              </section>
+            </div>
+          </div>
+        </section>
+
+        <section class="editor-view route-view is-hidden" data-view="editor">
+          <div class="section-heading editor-heading">
+            <div>
+              <p class="eyebrow">Dedicated editor</p>
+              <h2>Live image editing with real effects, before and after preview, and fast PNG export.</h2>
+            </div>
+            <div class="inline-actions editor-actions">
+              <button id="saveProjectButton" class="button secondary editor-action-button" type="button">
+                <span class="editor-action-label">Save Project</span>
+                <span class="editor-action-note">Store this edit in your dashboard</span>
+              </button>
+              <button id="downloadButton" class="button primary editor-action-button" type="button">
+                <span class="editor-action-label">Download PNG</span>
+                <span class="editor-action-note">Export the current canvas instantly</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="editor-grid">
+            <aside class="control-panel reveal">
+              <label class="upload-dropzone" for="editorImageInput" id="dropzone">
+                <input id="editorImageInput" type="file" accept="image/*" />
+                <span class="dropzone-title">Drop your image here</span>
+                <span class="dropzone-copy">Animated drag zone with live preview support.</span>
+              </label>
+
+              <div class="control-group">
+                <label>
+                  <span>Effect</span>
+                  <select id="presetSelect"></select>
+                </label>
+                <label>
+                  <span>Intensity <strong id="intensityValue">72</strong></span>
+                  <input id="intensityRange" type="range" min="0" max="100" value="72" />
+                </label>
+                <label>
+                  <span>Detail <strong id="detailValue">12</strong></span>
+                  <input id="detailRange" type="range" min="1" max="48" value="12" />
+                </label>
+                <label>
+                  <span>Contrast <strong id="contrastValue">10</strong></span>
+                  <input id="contrastRange" type="range" min="-80" max="80" value="10" />
+                </label>
+                <label>
+                  <span>Duotone Shadow</span>
+                  <input id="shadowColorInput" type="color" value="#101A42" />
+                </label>
+                <label>
+                  <span>Duotone Highlight</span>
+                  <input id="highlightColorInput" type="color" value="#4D7CFF" />
+                </label>
+                <label>
+                  <span>Color Pop Hue <strong id="hueValue">8</strong></span>
+                  <input id="hueRange" type="range" min="0" max="360" value="8" />
+                </label>
+              </div>
+
+              <div id="presetPills" class="preset-pills"></div>
+
+              <div class="action-row">
+                <button id="resetButton" class="button secondary" type="button">Reset</button>
+                <button id="beforeAfterButton" class="button secondary" type="button">Hold for Before</button>
+              </div>
+            </aside>
+
+            <div class="preview-panel reveal reveal-delay">
+              <div class="preview-topbar">
+                <div>
+                  <p class="eyebrow">Live Preview</p>
+                  <h3 id="effectTitle">Pixel Studio</h3>
+                </div>
+                <p class="status-pill" id="previewStatus">Previewing current effect</p>
+              </div>
+
+              <canvas id="previewCanvas" width="1440" height="1080" aria-label="Image preview"></canvas>
+
+              <div class="effect-meta">
+                <div class="meta-card">
+                  <span>Effect overview</span>
+                  <p id="effectDescription"></p>
+                </div>
+                <div class="meta-card">
+                  <span>Best use case</span>
+                  <p id="effectUseCase"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="authModal" class="modal is-hidden" aria-hidden="true">
+      <div class="modal-overlay" id="authOverlay"></div>
+      <div class="modal-card">
+        <div class="modal-topbar">
+          <div>
+            <p class="eyebrow">Account</p>
+            <h3>Access your creative workspace</h3>
+          </div>
+          <button id="closeAuthButton" class="icon-button" type="button">✕</button>
+        </div>
+
+        <div class="auth-tabs">
+          <button id="signInTab" class="auth-tab is-active" type="button">Sign In</button>
+          <button id="signUpTab" class="auth-tab" type="button">Sign Up</button>
+        </div>
+
+        <form id="signInForm" class="auth-form">
+          <label>
+            <span>Email</span>
+            <input id="signInEmail" type="email" placeholder="name@company.com" required />
+          </label>
+          <label>
+            <span>Password</span>
+            <input id="signInPassword" type="password" placeholder="Password" required />
+          </label>
+          <button class="button primary full-width" type="submit">Sign In</button>
+        </form>
+
+        <form id="signUpForm" class="auth-form is-hidden">
+          <label>
+            <span>Name</span>
+            <input id="signUpName" type="text" placeholder="Your name" required />
+          </label>
+          <label>
+            <span>Email</span>
+            <input id="signUpEmail" type="email" placeholder="name@company.com" required />
+          </label>
+          <label>
+            <span>Password</span>
+            <input id="signUpPassword" type="password" placeholder="At least 6 characters" required />
+          </label>
+          <button class="button primary full-width" type="submit">Create Account</button>
+        </form>
+
+        <p id="authStatus" class="inline-status auth-status"></p>
+      </div>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

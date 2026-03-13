@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Pixel Blocks preview</title>
+  <desc id="desc">A stylized Lumix preview card with a grid background and bold pixel inspired lettering.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f9fbff"/>
+      <stop offset="100%" stop-color="#eef2ff"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1535"/>
+      <stop offset="100%" stop-color="#4c78ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="1000" fill="url(#bg)"/>
+  <g opacity="0.12" stroke="#7382a8">
+    <path d="M0 200H1200"/>
+    <path d="M0 400H1200"/>
+    <path d="M0 600H1200"/>
+    <path d="M0 800H1200"/>
+    <path d="M200 0V1000"/>
+    <path d="M400 0V1000"/>
+    <path d="M600 0V1000"/>
+    <path d="M800 0V1000"/>
+    <path d="M1000 0V1000"/>
+  </g>
+  <rect x="84" y="88" width="240" height="200" rx="32" fill="#dfe6ff"/>
+  <rect x="166" y="170" width="76" height="76" rx="12" fill="#4c78ff"/>
+  <rect x="252" y="170" width="76" height="76" rx="12" fill="#0d1535"/>
+  <rect x="166" y="256" width="76" height="76" rx="12" fill="#0d1535"/>
+  <rect x="252" y="256" width="76" height="76" rx="12" fill="#4c78ff"/>
+  <text x="82" y="780" fill="#d4dcff" font-family="Arial, Helvetica, sans-serif" font-size="174" font-weight="900">Pixel</text>
+  <text x="70" y="760" fill="url(#blue)" font-family="Arial, Helvetica, sans-serif" font-size="174" font-weight="900">Pixel</text>
+  <rect x="796" y="140" width="220" height="220" rx="36" fill="#0d1535"/>
+  <rect x="848" y="192" width="52" height="52" rx="10" fill="#eef2ff"/>
+  <rect x="912" y="192" width="52" height="52" rx="10" fill="#4c78ff"/>
+  <rect x="848" y="256" width="52" height="52" rx="10" fill="#4c78ff"/>
+  <rect x="912" y="256" width="52" height="52" rx="10" fill="#eef2ff"/>
+</svg>
