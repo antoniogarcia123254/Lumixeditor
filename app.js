@@ -110,6 +110,69 @@ const presets = [
   },
 ];
 
+const DEMO_EFFECTS = {
+  duotone: {
+    src: "./demo-duotone.svg",
+    caption: "Duotone poster mode for campaign covers and hero art.",
+    presetId: "duotone",
+  },
+  pixel: {
+    src: "./demo-pixel.svg",
+    caption: "Pixel Studio turns a smooth source into a stylized grid-based export.",
+    presetId: "pixel",
+  },
+  glitch: {
+    src: "./demo-glitch.svg",
+    caption: "Glitch adds RGB separation, tears, and motion-heavy digital damage.",
+    presetId: "glitch",
+  },
+  neon: {
+    src: "./demo-neon.svg",
+    caption: "Neon Glow darkens the base and pushes bright edge bloom over the image.",
+    presetId: "neon",
+  },
+  blueprint: {
+    src: "./demo-blueprint.svg",
+    caption: "Blueprint Draft reframes the same source into clean technical lines.",
+    presetId: "blueprint",
+  },
+};
+
+const STARTER_PROJECT_TEMPLATES = [
+  {
+    name: "Starter Pixel Poster",
+    effect: "Pixel Studio",
+    effectId: "pixel",
+    thumbnail: "./demo-pixel.svg",
+    original: "./demo-original.svg",
+    note: "Starter demo",
+  },
+  {
+    name: "Starter Glitch Broadcast",
+    effect: "Glitch",
+    effectId: "glitch",
+    thumbnail: "./demo-glitch.svg",
+    original: "./demo-original.svg",
+    note: "Starter demo",
+  },
+  {
+    name: "Starter Duotone Cover",
+    effect: "Duotone",
+    effectId: "duotone",
+    thumbnail: "./demo-duotone.svg",
+    original: "./demo-original.svg",
+    note: "Starter demo",
+  },
+  {
+    name: "Starter Blueprint Study",
+    effect: "Blueprint Draft",
+    effectId: "blueprint",
+    thumbnail: "./demo-blueprint.svg",
+    original: "./demo-original.svg",
+    note: "Starter demo",
+  },
+];
+
 const state = {
   route: "landing",
   dashboardView: "home",
@@ -122,6 +185,8 @@ const state = {
   originalDataUrl: "",
   loadedRemoteUrl: "",
   activeProjectId: null,
+  activeHeroDemo: "duotone",
+  lookGrade: null,
 };
 
 const ui = {
@@ -137,7 +202,15 @@ const ui = {
   dashboardImportButton: document.querySelector("#dashboardImportButton"),
   globalImageInput: document.querySelector("#globalImageInput"),
   editorImageInput: document.querySelector("#editorImageInput"),
+  heroDemoShell: document.querySelector("#heroDemoShell"),
+  heroDemoSlider: document.querySelector("#heroDemoSlider"),
+  heroDemoAfter: document.querySelector("#heroDemoAfter"),
+  heroDemoCaption: document.querySelector("#heroDemoCaption"),
+  heroDemoTabs: [...document.querySelectorAll("[data-demo-effect]")],
   dropzone: document.querySelector("#dropzone"),
+  lookPromptInput: document.querySelector("#lookPromptInput"),
+  applyLookPromptButton: document.querySelector("#applyLookPromptButton"),
+  lookPromptStatus: document.querySelector("#lookPromptStatus"),
   presetSelect: document.querySelector("#presetSelect"),
   presetPills: document.querySelector("#presetPills"),
   intensityRange: document.querySelector("#intensityRange"),
@@ -155,6 +228,10 @@ const ui = {
   saveProjectButton: document.querySelector("#saveProjectButton"),
   downloadButton: document.querySelector("#downloadButton"),
   previewCanvas: document.querySelector("#previewCanvas"),
+  editorCompareShell: document.querySelector("#editorCompareShell"),
+  editorCompareSlider: document.querySelector("#editorCompareSlider"),
+  editorCompareBeforeCanvas: document.querySelector("#editorCompareBeforeCanvas"),
+  editorCompareAfterCanvas: document.querySelector("#editorCompareAfterCanvas"),
   previewStatus: document.querySelector("#previewStatus"),
   effectTitle: document.querySelector("#effectTitle"),
   effectDescription: document.querySelector("#effectDescription"),
@@ -173,6 +250,8 @@ const ui = {
   newsletterStatus: document.querySelector("#newsletterStatus"),
   focusContactFormButton: document.querySelector("#focusContactFormButton"),
   dashboardGreeting: document.querySelector("#dashboardGreeting"),
+  dashboardHeroTitle: document.querySelector("#dashboardHeroTitle"),
+  dashboardHeroNote: document.querySelector("#dashboardHeroNote"),
   statImages: document.querySelector("#statImages"),
   statFavorite: document.querySelector("#statFavorite"),
   statExports: document.querySelector("#statExports"),
@@ -199,6 +278,8 @@ const ui = {
 };
 
 const ctx = ui.previewCanvas.getContext("2d", { willReadFrequently: true });
+const compareBeforeCtx = ui.editorCompareBeforeCanvas?.getContext("2d", { willReadFrequently: true }) || null;
+const compareAfterCtx = ui.editorCompareAfterCanvas?.getContext("2d", { willReadFrequently: true }) || null;
 
 function init() {
   buildPresetInputs();
@@ -208,11 +289,16 @@ function init() {
   bindDashboard();
   bindForms();
   bindAppChrome();
+  bindLandingDemo();
   bindMicroInteractions();
+  bindPressFeedback();
   restoreAuth();
   createDefaultArtwork();
+  setHeroDemoEffect(state.activeHeroDemo);
   applyTheme(getInitialTheme());
   updateControlReadouts();
+  setComparePosition(ui.heroDemoShell, ui.heroDemoSlider?.value || 58);
+  setComparePosition(ui.editorCompareShell, ui.editorCompareSlider?.value || 58);
   renderAuthState();
   routeTo("landing");
 }
@@ -226,7 +312,7 @@ function bindAppChrome() {
   ui.themeFooterButton?.addEventListener("click", () => ui.themeToggle.click());
 
   ui.searchButton.addEventListener("click", () => {
-    const query = window.prompt("Jump to: home, effects, workflow, contact, dashboard, or editor");
+    const query = window.prompt("Jump to: home, effects, workflow, pricing, contact, dashboard, or editor");
     if (!query) {
       return;
     }
@@ -235,6 +321,7 @@ function bindAppChrome() {
       home: "landing",
       effects: "effects",
       workflow: "workflow",
+      pricing: "pricing",
       contact: "contact",
       dashboard: "dashboard",
       editor: "editor",
@@ -258,6 +345,22 @@ function bindRoutes() {
       routeTo(button.dataset.route);
     });
   });
+}
+
+function bindLandingDemo() {
+  ui.heroDemoSlider?.addEventListener("input", (event) => {
+    setComparePosition(ui.heroDemoShell, event.target.value);
+  });
+
+  ui.heroDemoTabs.forEach((button) => {
+    button.addEventListener("click", () => setHeroDemoEffect(button.dataset.demoEffect));
+  });
+
+  bindSwipeSurface(
+    ui.heroDemoShell,
+    () => cycleHeroDemo(1),
+    () => cycleHeroDemo(-1)
+  );
 }
 
 function bindAuth() {
@@ -347,6 +450,13 @@ function bindEditor() {
   ui.dashboardImportButton.addEventListener("click", () => ui.globalImageInput.click());
   ui.globalImageInput.addEventListener("change", handleGlobalImport);
   ui.editorImageInput.addEventListener("change", handleEditorImport);
+  ui.applyLookPromptButton?.addEventListener("click", applyLookPrompt);
+  ui.lookPromptInput?.addEventListener("keydown", (event) => {
+    if ((event.metaKey || event.ctrlKey) && event.key === "Enter") {
+      event.preventDefault();
+      applyLookPrompt();
+    }
+  });
 
   ["dragenter", "dragover"].forEach((eventName) => {
     ui.dropzone.addEventListener(eventName, (event) => {
@@ -381,6 +491,9 @@ function bindEditor() {
   ui.resetButton.addEventListener("click", resetEditor);
   ui.saveProjectButton.addEventListener("click", saveProject);
   ui.downloadButton.addEventListener("click", downloadCurrentRender);
+  ui.editorCompareSlider?.addEventListener("input", (event) => {
+    setComparePosition(ui.editorCompareShell, event.target.value);
+  });
 
   ["mousedown", "touchstart"].forEach((eventName) => {
     ui.beforeAfterButton.addEventListener(eventName, () => {
@@ -397,6 +510,12 @@ function bindEditor() {
       renderPreview();
     });
   });
+
+  bindSwipeSurface(
+    ui.editorCompareShell,
+    () => cyclePreset(1),
+    () => cyclePreset(-1)
+  );
 }
 
 function bindDashboard() {
@@ -777,7 +896,12 @@ function resetEditor() {
   ui.hueRange.value = "8";
   ui.shadowColorInput.value = "#101a42";
   ui.highlightColorInput.value = "#4d7cff";
+  state.lookGrade = null;
   state.activeProjectId = null;
+  if (ui.lookPromptInput) {
+    ui.lookPromptInput.value = "";
+  }
+  setStatus(ui.lookPromptStatus, "");
   const base = new Image();
   base.onload = () => {
     state.sourceImage = base;
@@ -788,6 +912,238 @@ function resetEditor() {
   updateControlReadouts();
 }
 
+function applyLookPrompt() {
+  const prompt = ui.lookPromptInput?.value.trim().toLowerCase() || "";
+  if (!prompt) {
+    setStatus(ui.lookPromptStatus, "Describe the look you want first.");
+    return;
+  }
+
+  const hasEffectRequest = /(pixel|8-bit|8 bit|retro game|arcade|glitch|broken|rgb|digital|signal|distort|vhs|retro|analog|scanline|tape|halftone|comic|newsprint|poster dots|ascii|terminal|code|text|dither|monochrome|two color|print|neon|glow|night|cyber|blueprint|technical|architect|schematic|drawing|thermal|infrared|heat|oil|paint|brush|mirror|kaleidoscope|tile|selective|color pop|keep red|keep blue|keep green)/.test(prompt);
+  const hasColorRequest = /(warm|sunset|orange|amber|gold|pink|magenta|rose|green|mint|lime|blue|cool|ice|natural|neutral|reset tint|remove tint)/.test(prompt);
+
+  const next = {
+    presetId: state.activePreset.id,
+    intensity: Number(ui.intensityRange.value),
+    detail: Number(ui.detailRange.value),
+    contrast: Number(ui.contrastRange.value),
+    hue: Number(ui.hueRange.value),
+    shadow: ui.shadowColorInput.value,
+    highlight: ui.highlightColorInput.value,
+  };
+
+  if (/(pixel|8-bit|8 bit|retro game|arcade)/.test(prompt)) {
+    next.presetId = "pixel";
+    next.intensity = 84;
+    next.detail = 20;
+    next.contrast = 18;
+  } else if (/(glitch|broken|rgb|digital|signal|distort)/.test(prompt)) {
+    next.presetId = "glitch";
+    next.intensity = 82;
+    next.detail = 18;
+    next.contrast = 12;
+  } else if (/(vhs|retro|analog|scanline|tape)/.test(prompt)) {
+    next.presetId = "vhs";
+    next.intensity = 76;
+    next.detail = 16;
+    next.contrast = 6;
+  } else if (/(halftone|comic|newsprint|poster dots)/.test(prompt)) {
+    next.presetId = "halftone";
+    next.intensity = 68;
+    next.detail = 16;
+    next.shadow = "#0f1732";
+    next.highlight = "#f4efe7";
+  } else if (/(ascii|terminal|code|text)/.test(prompt)) {
+    next.presetId = "ascii";
+    next.intensity = 64;
+    next.detail = 14;
+  } else if (/(dither|monochrome|two color|print)/.test(prompt)) {
+    next.presetId = "dither";
+    next.intensity = 66;
+    next.detail = 12;
+    next.shadow = "#10141f";
+    next.highlight = "#f5f2e8";
+  } else if (/(neon|glow|night|cyber)/.test(prompt)) {
+    next.presetId = "neon";
+    next.intensity = 82;
+    next.detail = 14;
+    next.contrast = 20;
+    next.shadow = "#050816";
+    next.highlight = "#65d8ff";
+  } else if (/(blueprint|technical|architect|schematic|drawing)/.test(prompt)) {
+    next.presetId = "blueprint";
+    next.intensity = 78;
+    next.detail = 18;
+    next.contrast = 18;
+    next.shadow = "#1b3d90";
+    next.highlight = "#cde3ff";
+  } else if (/(thermal|infrared|heat)/.test(prompt)) {
+    next.presetId = "thermal";
+    next.intensity = 80;
+    next.detail = 10;
+  } else if (/(oil|paint|brush)/.test(prompt)) {
+    next.presetId = "oil";
+    next.intensity = 70;
+    next.detail = 22;
+    next.contrast = 10;
+  } else if (/(mirror|kaleidoscope|tile)/.test(prompt)) {
+    next.presetId = "tile";
+    next.intensity = 72;
+    next.detail = 12;
+  } else if (/(selective|color pop|keep red|keep blue|keep green)/.test(prompt)) {
+    next.presetId = "selective";
+    next.intensity = 70;
+    next.detail = 24;
+  }
+
+  if (/(warm|sunset|orange|amber|gold)/.test(prompt)) {
+    next.highlight = "#ffb25a";
+    next.shadow = "#20133c";
+    next.hue = 32;
+    state.lookGrade = { color: "#ffb25a", opacity: 0.14, mode: "soft-light" };
+  } else if (/(pink|magenta|rose)/.test(prompt)) {
+    next.highlight = "#ff72d3";
+    next.shadow = "#22103b";
+    next.hue = 332;
+    state.lookGrade = { color: "#ff72d3", opacity: 0.16, mode: "soft-light" };
+  } else if (/(green|mint|lime)/.test(prompt)) {
+    next.highlight = "#76ffb1";
+    next.shadow = "#112d24";
+    next.hue = 128;
+    state.lookGrade = { color: "#76ffb1", opacity: 0.15, mode: "soft-light" };
+  } else if (/(blue|cool|ice)/.test(prompt)) {
+    next.highlight = "#78d4ff";
+    next.shadow = "#101a42";
+    next.hue = 206;
+    state.lookGrade = { color: "#4d7cff", opacity: 0.18, mode: "soft-light" };
+  } else if (/(natural|neutral|reset tint|remove tint)/.test(prompt)) {
+    state.lookGrade = null;
+  } else if (hasEffectRequest && !hasColorRequest) {
+    state.lookGrade = null;
+  }
+
+  if (/(soft|subtle)/.test(prompt)) {
+    next.intensity = Math.max(44, next.intensity - 18);
+    next.contrast = Math.max(0, next.contrast - 8);
+  }
+
+  if (/(strong|bold|dramatic|intense)/.test(prompt)) {
+    next.intensity = Math.min(96, next.intensity + 12);
+    next.contrast = Math.min(32, next.contrast + 10);
+  }
+
+  ui.intensityRange.value = String(next.intensity);
+  ui.detailRange.value = String(next.detail);
+  ui.contrastRange.value = String(next.contrast);
+  ui.hueRange.value = String(next.hue);
+  ui.shadowColorInput.value = next.shadow;
+  ui.highlightColorInput.value = next.highlight;
+  updateControlReadouts();
+  setPreset(next.presetId);
+  setStatus(ui.lookPromptStatus, `Applied ${state.activePreset.name} from your description.`);
+
+  if (state.user) {
+    logActivity("prompt", `Applied a described look with ${state.activePreset.name}`);
+    refreshDashboard();
+  }
+}
+
+function setComparePosition(shell, value) {
+  if (!shell) {
+    return;
+  }
+  shell.style.setProperty("--compare-position", `${value}%`);
+}
+
+function syncEditorCompareCanvases(preserveAfter = false) {
+  if (!compareBeforeCtx || !compareAfterCtx || !state.sourceImage.complete) {
+    return;
+  }
+
+  drawBaseImage(state.sourceImage, compareBeforeCtx, ui.editorCompareBeforeCanvas);
+
+  if (preserveAfter) {
+    return;
+  }
+
+  compareAfterCtx.clearRect(0, 0, ui.editorCompareAfterCanvas.width, ui.editorCompareAfterCanvas.height);
+  compareAfterCtx.drawImage(
+    ui.previewCanvas,
+    0,
+    0,
+    ui.editorCompareAfterCanvas.width,
+    ui.editorCompareAfterCanvas.height
+  );
+}
+
+function cyclePreset(direction) {
+  const currentIndex = presets.findIndex((preset) => preset.id === state.activePreset.id);
+  const nextIndex = (currentIndex + direction + presets.length) % presets.length;
+  setPreset(presets[nextIndex].id);
+}
+
+function setHeroDemoEffect(effectId) {
+  const nextDemo = DEMO_EFFECTS[effectId] || DEMO_EFFECTS.duotone;
+  state.activeHeroDemo = effectId in DEMO_EFFECTS ? effectId : "duotone";
+
+  if (ui.heroDemoAfter) {
+    ui.heroDemoAfter.src = nextDemo.src;
+    ui.heroDemoAfter.alt = `${presets.find((preset) => preset.id === nextDemo.presetId)?.name || "Lumix"} demo result`;
+  }
+
+  if (ui.heroDemoCaption) {
+    ui.heroDemoCaption.textContent = nextDemo.caption;
+  }
+
+  ui.heroDemoTabs.forEach((button) => {
+    button.classList.toggle("is-active", button.dataset.demoEffect === state.activeHeroDemo);
+  });
+}
+
+function cycleHeroDemo(direction) {
+  const ids = Object.keys(DEMO_EFFECTS);
+  const currentIndex = ids.indexOf(state.activeHeroDemo);
+  const nextIndex = (currentIndex + direction + ids.length) % ids.length;
+  setHeroDemoEffect(ids[nextIndex]);
+}
+
+function bindSwipeSurface(element, onNext, onPrevious) {
+  if (!element) {
+    return;
+  }
+
+  let startX = 0;
+  let startY = 0;
+
+  element.addEventListener(
+    "touchstart",
+    (event) => {
+      const touch = event.touches[0];
+      startX = touch.clientX;
+      startY = touch.clientY;
+    },
+    { passive: true }
+  );
+
+  element.addEventListener(
+    "touchend",
+    (event) => {
+      const touch = event.changedTouches[0];
+      const deltaX = touch.clientX - startX;
+      const deltaY = touch.clientY - startY;
+      if (Math.abs(deltaX) < 40 || Math.abs(deltaX) < Math.abs(deltaY)) {
+        return;
+      }
+      if (deltaX < 0) {
+        onNext();
+      } else {
+        onPrevious();
+      }
+    },
+    { passive: true }
+  );
+}
+
 function renderPreview() {
   if (!state.sourceImage.complete) {
     return;
@@ -795,6 +1151,7 @@ function renderPreview() {
 
   if (state.showingBefore) {
     drawBaseImage(state.sourceImage, ctx, ui.previewCanvas);
+    syncEditorCompareCanvases(true);
     return;
   }
 
@@ -844,6 +1201,22 @@ function renderPreview() {
     default:
       drawBaseImage(state.sourceImage, ctx, ui.previewCanvas);
   }
+
+  applyLookGrade();
+  syncEditorCompareCanvases();
+}
+
+function applyLookGrade() {
+  if (!state.lookGrade) {
+    return;
+  }
+
+  ctx.save();
+  ctx.globalAlpha = state.lookGrade.opacity;
+  ctx.globalCompositeOperation = state.lookGrade.mode;
+  ctx.fillStyle = state.lookGrade.color;
+  ctx.fillRect(0, 0, ui.previewCanvas.width, ui.previewCanvas.height);
+  ctx.restore();
 }
 
 function getIntensity() {
@@ -1213,6 +1586,9 @@ function saveProject() {
     date: new Date().toISOString(),
     thumbnail: ui.previewCanvas.toDataURL("image/png"),
     original: state.originalDataUrl,
+    settings: getCurrentEditorSettings(),
+    lookGrade: state.lookGrade,
+    lookPrompt: ui.lookPromptInput?.value.trim() || "",
   };
 
   const nextProjects = [project, ...projects.filter((item) => item.id !== project.id)].slice(0, 24);
@@ -1277,28 +1653,43 @@ function refreshDashboard() {
 
   const projects = getProjects();
   const activity = getActivity();
+  const realProjects = projects.filter((project) => !project.demo);
+  const starterProjects = projects.filter((project) => project.demo);
   const favorite = getFavoriteFilter(projects, activity);
-  const exportsCount = activity.filter((item) => item.type === "export").length;
+  const exportsCount = Math.max(
+    activity.filter((item) => item.type === "export").length,
+    realProjects.length ? 0 : starterProjects.length
+  );
   const daysActive = getDaysActive(activity, state.user.createdAt);
   ui.statImages.textContent = String(projects.length);
   ui.statFavorite.textContent = favorite;
   ui.statExports.textContent = String(exportsCount);
   ui.statDays.textContent = String(daysActive);
 
+  if (!realProjects.length && starterProjects.length) {
+    ui.dashboardHeroTitle.textContent = "Starter projects are loaded so your dashboard feels alive from the first visit.";
+    ui.dashboardHeroNote.textContent =
+      "Use the sample edits as a quality benchmark, then replace them with your own work as you save and export.";
+  } else if (realProjects.length) {
+    ui.dashboardHeroTitle.textContent = "Your edits, exports, and saved looks are all tracked in one workspace.";
+    ui.dashboardHeroNote.textContent =
+      "Keep building from your own saved projects, reopen them quickly, and use the dashboard as your creative command center.";
+  }
+
   ui.recentProjectsGrid.innerHTML = "";
   ui.allProjectsGrid.innerHTML = "";
   ui.activityFeed.innerHTML = "";
 
   if (!projects.length) {
-    ui.recentProjectsGrid.innerHTML = '<div class="empty-state">No saved projects yet.</div>';
-    ui.allProjectsGrid.innerHTML = '<div class="empty-state">Save an edit to build your project library.</div>';
+    ui.recentProjectsGrid.append(buildEmptyStateCard("No projects yet", "Open the editor, apply a look, and save your first project."));
+    ui.allProjectsGrid.append(buildEmptyStateCard("Your project library is empty", "Use the starter demo or import an image to begin building a real archive."));
   } else {
     projects.slice(0, 4).forEach((project) => ui.recentProjectsGrid.append(buildProjectCard(project)));
     projects.forEach((project) => ui.allProjectsGrid.append(buildProjectCard(project)));
   }
 
   if (!activity.length) {
-    ui.activityFeed.innerHTML = '<div class="empty-state">No activity yet. Apply a filter or export an image.</div>';
+    ui.activityFeed.append(buildEmptyStateCard("No activity yet", "Apply a filter, save a project, or export a PNG to start the feed."));
   } else {
     activity.slice(0, 10).forEach((item) => {
       const row = document.createElement("div");
@@ -1315,9 +1706,9 @@ function buildProjectCard(project) {
   card.innerHTML = `
     <img class="project-thumb" src="${project.thumbnail}" alt="${project.name}" />
     <div class="project-info">
-      <span class="project-tag">${project.effect}</span>
+      <span class="project-tag">${project.demo ? `${project.effect} · Demo` : project.effect}</span>
       <h4>${project.name}</h4>
-      <p class="project-meta">${formatDate(project.date)}</p>
+      <p class="project-meta">${project.demo ? `${project.note} · ${formatDate(project.date)}` : formatDate(project.date)}</p>
     </div>
     <div class="project-overlay">
       <button type="button" data-project-open="${project.id}">Open in Editor</button>
@@ -1327,6 +1718,13 @@ function buildProjectCard(project) {
 
   card.querySelector("[data-project-open]").addEventListener("click", () => openProject(project.id));
   card.querySelector("[data-project-download]").addEventListener("click", () => downloadProject(project.id));
+  return card;
+}
+
+function buildEmptyStateCard(title, message) {
+  const card = document.createElement("div");
+  card.className = "empty-state";
+  card.innerHTML = `<strong>${title}</strong><span>${message}</span>`;
   return card;
 }
 
@@ -1341,6 +1739,11 @@ function openProject(projectId) {
     state.sourceImage = image;
     state.originalDataUrl = project.original || project.thumbnail;
     state.activeProjectId = project.id;
+    applyEditorSettings(project.settings);
+    state.lookGrade = project.lookGrade || null;
+    if (ui.lookPromptInput) {
+      ui.lookPromptInput.value = project.lookPrompt || "";
+    }
     setPreset(project.effectId || presets[0].id);
     routeTo("editor");
   };
@@ -1395,14 +1798,27 @@ function ensureUserCollections() {
     return;
   }
 
+  if (!localStorage.getItem(preferencesKey())) {
+    savePreferences({ defaultFilter: "pixel", theme: "light" });
+  }
+
+  const seedKey = workspaceSeedKey();
+  const hasSeeded = localStorage.getItem(seedKey) === "true";
+  const currentProjects = safeParse(localStorage.getItem(projectsKey()), []);
+  const currentActivity = safeParse(localStorage.getItem(activityKey()), []);
+
+  if (!hasSeeded && !currentProjects.length && !currentActivity.length) {
+    setProjects(buildStarterProjects());
+    setActivity(buildStarterActivity());
+    localStorage.setItem(seedKey, "true");
+    return;
+  }
+
   if (!localStorage.getItem(projectsKey())) {
     setProjects([]);
   }
   if (!localStorage.getItem(activityKey())) {
     setActivity([]);
-  }
-  if (!localStorage.getItem(preferencesKey())) {
-    savePreferences({ defaultFilter: "pixel", theme: "light" });
   }
 }
 
@@ -1499,6 +1915,34 @@ function preferencesKey() {
   return `framelab_preferences_${state.user.id}`;
 }
 
+function workspaceSeedKey() {
+  return `lumix_workspace_seeded_${state.user.id}`;
+}
+
+function buildStarterProjects() {
+  const now = Date.now();
+  return STARTER_PROJECT_TEMPLATES.map((template, index) => ({
+    id: createId(),
+    name: template.name,
+    effect: template.effect,
+    effectId: template.effectId,
+    date: new Date(now - index * 1000 * 60 * 90).toISOString(),
+    thumbnail: template.thumbnail,
+    original: template.original,
+    demo: true,
+    note: template.note,
+  }));
+}
+
+function buildStarterActivity() {
+  const now = Date.now();
+  return [
+    { id: createId(), type: "demo", label: "Loaded starter workspace with 4 sample edits", time: new Date(now - 600000).toISOString() },
+    { id: createId(), type: "demo", label: "Starter compare demo ready in the editor", time: new Date(now - 420000).toISOString() },
+    { id: createId(), type: "demo", label: "Starter PNG exports included for preview", time: new Date(now - 240000).toISOString() },
+  ];
+}
+
 function getFavoriteFilter(projects, activity) {
   const counts = new Map();
   projects.forEach((project) => {
@@ -1520,7 +1964,7 @@ function getFavoriteFilter(projects, activity) {
 
 function bindMicroInteractions() {
   const targets = document.querySelectorAll(
-    ".button, .nav-button, .feature-card, .workflow-card, .hero-panel, .quick-card, .project-card, .control-panel, .preview-panel, .contact-card, .stat-card, .home-card, .testimonial-card, .showcase-tile, .contact-banner, .contact-form-card, .newsletter-card, .dashboard-hero-card, .workflow-board-main, .workflow-board-side"
+    ".button, .nav-button, .feature-card, .workflow-card, .hero-panel, .quick-card, .project-card, .control-panel, .preview-panel, .contact-card, .stat-card, .home-card, .effect-demo-card, .showcase-tile, .contact-banner, .contact-form-card, .newsletter-card, .dashboard-hero-card, .workflow-board-main, .workflow-board-side, .hero-demo-card, .result-card, .pricing-card, .pricing-compare"
   );
 
   targets.forEach((element) => {
@@ -1559,7 +2003,7 @@ function bindCursorDot() {
   }
 
   const interactiveSelector =
-    "a, button, input, select, textarea, .home-card, .showcase-tile, .testimonial-card, .quick-card, .project-card, .stat-card, .stack-card";
+    "a, button, input, select, textarea, .home-card, .showcase-tile, .effect-demo-card, .quick-card, .project-card, .stat-card, .stack-card, .hero-demo-card, .pricing-card";
 
   window.addEventListener("pointermove", (event) => {
     ui.cursorDot.style.left = `${event.clientX}px`;
@@ -1584,11 +2028,49 @@ function bindCursorDot() {
   });
 }
 
+function bindPressFeedback() {
+  const selector = ".nav-link, .nav-button, .button, .showcase-pill, .demo-effect-tab, .sidebar-link";
+
+  document.addEventListener("click", (event) => {
+    const target = event.target instanceof Element ? event.target.closest(selector) : null;
+    if (!target) {
+      return;
+    }
+
+    target.classList.remove("is-clicked");
+    window.requestAnimationFrame(() => {
+      target.classList.add("is-clicked");
+      window.setTimeout(() => target.classList.remove("is-clicked"), 430);
+    });
+  });
+}
+
 function getDaysActive(activity, createdAt) {
   const first = activity.length ? activity[activity.length - 1].time : createdAt;
   const start = new Date(first);
   const diff = Date.now() - start.getTime();
   return Math.max(1, Math.ceil(diff / (1000 * 60 * 60 * 24)));
+}
+
+function getCurrentEditorSettings() {
+  return {
+    intensity: ui.intensityRange.value,
+    detail: ui.detailRange.value,
+    contrast: ui.contrastRange.value,
+    hue: ui.hueRange.value,
+    shadow: ui.shadowColorInput.value,
+    highlight: ui.highlightColorInput.value,
+  };
+}
+
+function applyEditorSettings(settings = {}) {
+  ui.intensityRange.value = settings.intensity || ui.intensityRange.value;
+  ui.detailRange.value = settings.detail || ui.detailRange.value;
+  ui.contrastRange.value = settings.contrast || ui.contrastRange.value;
+  ui.hueRange.value = settings.hue || ui.hueRange.value;
+  ui.shadowColorInput.value = settings.shadow || ui.shadowColorInput.value;
+  ui.highlightColorInput.value = settings.highlight || ui.highlightColorInput.value;
+  updateControlReadouts();
 }
 
 function setStatus(element, message) {

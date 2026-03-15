@@ -1,0 +1,35 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="16"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="900" rx="44" fill="#0A1026"/>
+  <circle cx="922" cy="208" r="138" fill="#1A2450"/>
+  <circle cx="922" cy="208" r="108" fill="#162B74" fill-opacity="0.4" filter="url(#blur)"/>
+  <path d="M88 728C246 566 420 500 618 526C774 546 934 610 1124 530" stroke="#17306B" stroke-width="120" stroke-linecap="round" opacity="0.42"/>
+  <rect x="110" y="128" width="410" height="244" rx="30" fill="#111936" stroke="#253571"/>
+  <text x="150" y="192" fill="#8CCBFF" font-family="Manrope, sans-serif" font-size="34" font-weight="800">NEON GLOW</text>
+  <text x="150" y="242" fill="#8FA0D2" font-family="Manrope, sans-serif" font-size="22">Darken the frame and bloom the outlines.</text>
+  <rect x="150" y="294" width="184" height="54" rx="27" fill="#183DFF"/>
+  <text x="206" y="328" fill="white" font-family="Manrope, sans-serif" font-size="22" font-weight="700">Apply</text>
+  <g opacity="0.5" filter="url(#blur)">
+    <circle cx="600" cy="324" r="96" fill="#67D7FF"/>
+    <path d="M520 318C532 252 566 220 624 224C676 228 706 268 698 324" stroke="#89E4FF" stroke-width="20" stroke-linecap="round"/>
+    <path d="M476 620C500 528 548 486 622 484C688 482 734 516 756 598V704" stroke="#4C7FFF" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="682" y="508" width="112" height="154" rx="24" stroke="#67D7FF" stroke-width="18"/>
+  </g>
+  <g>
+    <circle cx="600" cy="324" r="96" stroke="#B5EEFF" stroke-width="10"/>
+    <path d="M520 318C532 252 566 220 624 224C676 228 706 268 698 324C678 294 644 274 608 272C572 270 544 284 520 318Z" stroke="#67D7FF" stroke-width="10" stroke-linejoin="round"/>
+    <path d="M476 620C500 528 548 486 622 484C688 482 734 516 756 598V704H476V620Z" stroke="#4C7FFF" stroke-width="10" stroke-linejoin="round"/>
+    <rect x="682" y="508" width="112" height="154" rx="24" stroke="#89E4FF" stroke-width="10"/>
+  </g>
+  <rect x="818" y="142" width="260" height="128" rx="28" fill="#111936" stroke="#2C3F7C"/>
+  <text x="852" y="190" fill="#8CCBFF" font-family="Manrope, sans-serif" font-size="20" font-weight="700">Glow Engine</text>
+  <text x="852" y="224" fill="#8FA0D2" font-family="Manrope, sans-serif" font-size="18">Edges bloom on a darkened base.</text>
+  <rect x="818" y="312" width="286" height="224" rx="30" fill="#111936" stroke="#2C3F7C"/>
+  <rect x="852" y="348" width="214" height="20" rx="10" fill="#2B5AFF"/>
+  <rect x="852" y="390" width="186" height="20" rx="10" fill="#67D7FF"/>
+  <rect x="852" y="432" width="148" height="20" rx="10" fill="#3B4E91"/>
+</svg>

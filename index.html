@@ -41,6 +41,7 @@
         <button class="nav-link nav-link-editor" data-route="editor">Editor</button>
         <button class="nav-link" data-route="effects">Effects</button>
         <button class="nav-link" data-route="workflow">Workflow</button>
+        <button class="nav-link" data-route="pricing">Pricing</button>
         <button class="nav-link" data-route="contact">Contact</button>
       </nav>
 
@@ -71,6 +72,7 @@
             <div class="hero-actions centered">
               <button class="button primary" data-route="editor">Open Editor</button>
               <button class="button secondary" data-route="dashboard">Browse Dashboard</button>
+              <button class="button secondary" data-route="pricing">View Pricing</button>
             </div>
 
             <div class="trust-row">
@@ -82,6 +84,40 @@
               </div>
               <p><strong>Trusted by 1000+ users</strong> building sharper creative visuals.</p>
             </div>
+
+            <section class="hero-demo reveal">
+              <div class="hero-demo-copy">
+                <p class="eyebrow">Live Demo</p>
+                <h2>Drag the slider before you upload anything.</h2>
+                <p>
+                  A preloaded image shows exactly how Lumix handles standout looks like duotone, glitch, pixel,
+                  blueprint, and neon, with one-thumb comparison on mobile and swipe-based effect switching.
+                </p>
+              </div>
+              <div class="hero-demo-card" id="heroDemoPanel">
+                <div class="compare-shell" id="heroDemoShell">
+                  <img id="heroDemoBefore" src="./demo-original.svg" alt="Original Lumix demo image" />
+                  <div class="compare-after-mask">
+                    <img id="heroDemoAfter" src="./demo-duotone.svg" alt="Edited Lumix demo image" />
+                  </div>
+                  <div class="compare-divider"></div>
+                  <span class="compare-badge before">Before</span>
+                  <span class="compare-badge after">After</span>
+                  <input id="heroDemoSlider" class="compare-range" type="range" min="0" max="100" value="58"
+                    aria-label="Compare before and after demo image" />
+                </div>
+                <div class="hero-demo-toolbar">
+                  <div id="heroDemoTabs" class="demo-effect-tabs" aria-label="Demo effects">
+                    <button class="demo-effect-tab is-active" type="button" data-demo-effect="duotone">Duotone</button>
+                    <button class="demo-effect-tab" type="button" data-demo-effect="pixel">Pixel</button>
+                    <button class="demo-effect-tab" type="button" data-demo-effect="glitch">Glitch</button>
+                    <button class="demo-effect-tab" type="button" data-demo-effect="neon">Neon</button>
+                    <button class="demo-effect-tab" type="button" data-demo-effect="blueprint">Blueprint</button>
+                  </div>
+                  <p id="heroDemoCaption" class="hero-demo-caption">Duotone poster mode for campaign covers and hero art.</p>
+                </div>
+              </div>
+            </section>
 
             <div class="moving-blocks">
               <div class="blocks-track">
@@ -152,84 +188,121 @@
           </div>
         </section>
 
-        <section class="testimonial-section">
-          <div class="testimonial-header reveal">
+        <section class="effect-gallery-section">
+          <div class="effect-gallery-header reveal">
             <div>
-              <p class="eyebrow">Reviews</p>
-              <h2>Used by designers, creators, and studios who want sharper visual edits without slow workflows.</h2>
+              <p class="eyebrow">Effect Proof</p>
+              <h2>Show the transformation, not just the filter name.</h2>
             </div>
-            <div class="testimonial-summary">
-              <strong>4.9/5</strong>
-              <span>Average creator rating across saved projects, exports, and repeat editing sessions.</span>
+            <div class="effect-gallery-summary">
+              <strong>5 signature looks</strong>
+              <span>Each card compares the same source image against a real Lumix treatment so new visitors understand
+                the value immediately.</span>
             </div>
           </div>
 
-          <div class="testimonial-strip">
-            <article class="testimonial-card reveal">
-              <div class="review-rating" aria-label="5 stars">★★★★★</div>
-              <div class="testimonial-head">
-                <span class="testimonial-avatar">K</span>
-                <div>
-                  <strong>Karan</strong>
-                  <span>@lumixcreator</span>
+          <div class="effect-gallery-grid">
+            <article class="effect-demo-card reveal">
+              <div class="mini-compare" style="--compare-position: 62%;">
+                <img src="./demo-original.svg" alt="Original demo image" />
+                <div class="compare-after-mask">
+                  <img src="./demo-pixel.svg" alt="Pixel effect preview" />
                 </div>
+                <div class="compare-divider"></div>
               </div>
-              <p>Fast, sharp, and actually fun to use. The editor feels premium instead of bulky.</p>
-              <div class="review-tags">
-                <span>Pixel Studio</span>
-                <span>12 exports</span>
+              <div class="effect-demo-copy">
+                <h3>Pixel Studio</h3>
+                <p>Chunk the image into bold blocks for album art, avatars, posters, and retro visuals.</p>
               </div>
             </article>
-            <article class="testimonial-card featured reveal">
-              <div class="review-rating" aria-label="5 stars">★★★★★</div>
-              <div class="testimonial-head">
-                <span class="testimonial-avatar active">S</span>
-                <div>
-                  <strong>Sayan</strong>
-                  <span>@lumixstudio</span>
+            <article class="effect-demo-card reveal">
+              <div class="mini-compare" style="--compare-position: 54%;">
+                <img src="./demo-original.svg" alt="Original demo image" />
+                <div class="compare-after-mask">
+                  <img src="./demo-glitch.svg" alt="Glitch effect preview" />
                 </div>
+                <div class="compare-divider"></div>
               </div>
-              <p>The live preview is the best part. I can dial the look in quickly and save polished versions right
-                away.</p>
-              <div class="review-tags">
-                <span>Glitch</span>
-                <span>Saved projects</span>
+              <div class="effect-demo-copy">
+                <h3>Glitch</h3>
+                <p>Split channels and add signal tears when the image needs more energy than Lightroom-style cleanup.</p>
               </div>
             </article>
-            <article class="testimonial-card reveal">
-              <div class="review-rating" aria-label="5 stars">★★★★★</div>
-              <div class="testimonial-head">
-                <span class="testimonial-avatar">D</span>
-                <div>
-                  <strong>Dikshit</strong>
-                  <span>@lumixwork</span>
+            <article class="effect-demo-card reveal">
+              <div class="mini-compare" style="--compare-position: 58%;">
+                <img src="./demo-original.svg" alt="Original demo image" />
+                <div class="compare-after-mask">
+                  <img src="./demo-duotone.svg" alt="Duotone effect preview" />
                 </div>
+                <div class="compare-divider"></div>
               </div>
-              <p>Clean layout, strong image tools, and easy exporting. It feels much more focused than a heavy editor.
-              </p>
-              <div class="review-tags">
-                <span>Blueprint</span>
-                <span>Creative workflow</span>
+              <div class="effect-demo-copy">
+                <h3>Duotone</h3>
+                <p>Map the whole frame into two campaign colors and get poster-ready results in one pass.</p>
+              </div>
+            </article>
+            <article class="effect-demo-card reveal">
+              <div class="mini-compare" style="--compare-position: 52%;">
+                <img src="./demo-original.svg" alt="Original demo image" />
+                <div class="compare-after-mask">
+                  <img src="./demo-neon.svg" alt="Neon effect preview" />
+                </div>
+                <div class="compare-divider"></div>
+              </div>
+              <div class="effect-demo-copy">
+                <h3>Neon Glow</h3>
+                <p>Turn edges into luminous outlines for music, nightlife, cyber, and motion-inspired campaigns.</p>
+              </div>
+            </article>
+            <article class="effect-demo-card reveal">
+              <div class="mini-compare" style="--compare-position: 60%;">
+                <img src="./demo-original.svg" alt="Original demo image" />
+                <div class="compare-after-mask">
+                  <img src="./demo-blueprint.svg" alt="Blueprint effect preview" />
+                </div>
+                <div class="compare-divider"></div>
+              </div>
+              <div class="effect-demo-copy">
+                <h3>Blueprint Draft</h3>
+                <p>Convert the frame into a technical, line-based visual system for design, architecture, and product concepts.</p>
               </div>
             </article>
           </div>
         </section>
 
+        <section class="results-section">
+          <article class="result-card reveal">
+            <strong>Fast live preview</strong>
+            <span>Adjust sliders, switch effects, and compare original versus edited output instantly on canvas.</span>
+          </article>
+          <article class="result-card reveal">
+            <strong>Projects that persist</strong>
+            <span>Saved edits stay inside the dashboard with thumbnails, timestamps, and downloadable exports.</span>
+          </article>
+          <article class="result-card reveal">
+            <strong>Made for sharing</strong>
+            <span>Download clean PNG files and keep a browser-based workflow that works on desktop and mobile.</span>
+          </article>
+        </section>
+
         <section class="showcase-strip">
           <article class="showcase-tile reveal">
             <div class="showcase-grid"></div>
-            <img class="showcase-image" src="./pixel-card.svg" alt="Pixel blocks preview" />
+            <img class="showcase-image" src="./demo-pixel.svg" alt="Pixel Studio export preview" />
             <h3>Pixel Blocks</h3>
+            <p>Grid-first stylization for campaigns, covers, and pixel-forward branding.</p>
           </article>
           <article class="showcase-tile reveal feature-blue">
             <div class="showcase-grid"></div>
-            <img class="showcase-image" src="./glitch-card.svg" alt="Glitch blocks preview" />
+            <img class="showcase-image" src="./demo-glitch.svg" alt="Glitch export preview" />
             <h3>Glitch Blocks</h3>
+            <p>Broadcast damage, RGB shifts, and broken-signal energy for louder visuals.</p>
           </article>
           <article class="showcase-tile reveal feature-green">
             <div class="showcase-grid"></div>
-            <img class="showcase-image" src="./color-card.svg" alt="Color blocks preview" />
-            <h3>Color Blocks</h3>
+            <img class="showcase-image" src="./demo-blueprint.svg" alt="Blueprint export preview" />
+            <h3>Blueprint Blocks</h3>
+            <p>Technical line work and structured contour overlays for design-heavy projects.</p>
           </article>
         </section>
 
@@ -394,16 +467,24 @@
                   <p class="eyebrow">Dashboard</p>
                   <h2 id="dashboardGreeting">Welcome back.</h2>
                 </div>
-                <div class="header-actions">
+              <div class="header-actions">
                   <button class="button secondary" data-route="editor">New Edit</button>
                   <button class="button primary" id="dashboardImportButton">Import from Device</button>
+                  <button class="button secondary" data-route="pricing">View Pro plans</button>
                 </div>
               </div>
 
               <section class="dashboard-hero-card">
-                <div>
+                <div class="dashboard-hero-top">
+                  <div>
                   <p class="eyebrow">Workspace overview</p>
-                  <h3>Track your edits, exports, and recent creative activity in one place.</h3>
+                    <h3 id="dashboardHeroTitle">Your workspace starts with real demo edits, not a dead blank state.</h3>
+                    <p id="dashboardHeroNote" class="dashboard-hero-note">
+                      Save your own projects on top of the starter set, reopen them instantly, and use the dashboard as
+                      your visual workspace instead of a placeholder screen.
+                    </p>
+                  </div>
+                  <span class="dashboard-plan-pill">Free plan</span>
                 </div>
                 <div class="dashboard-hero-metrics">
                   <div>
@@ -418,6 +499,10 @@
                     <strong>Clean</strong>
                     <span>Focus on filters and output</span>
                   </div>
+                </div>
+                <div class="dashboard-hero-actions">
+                  <button class="button primary" data-route="editor">Create new edit</button>
+                  <button class="button secondary" data-route="pricing">Compare plans</button>
                 </div>
               </section>
 
@@ -448,6 +533,10 @@
                 <button class="quick-card" data-route="effects">
                   <strong>Browse Filters</strong>
                   <span>Review the full effect catalog and use cases.</span>
+                </button>
+                <button class="quick-card" data-route="pricing">
+                  <strong>Pricing</strong>
+                  <span>See what Lumix Pro unlocks before you upgrade.</span>
                 </button>
                 <button class="quick-card" id="importUrlButton">
                   <strong>Import from URL</strong>
@@ -527,6 +616,101 @@
         </div>
       </section>
 
+      <section class="pricing-view route-view is-hidden" data-view="pricing">
+        <div class="section-heading pricing-heading">
+          <div>
+            <p class="eyebrow">Pricing</p>
+            <h2>Choose the Lumix plan that fits your image workflow.</h2>
+            <p class="lead pricing-lead">
+              Start free, test the editing experience, and upgrade when you want more exports, more saved projects, and
+              more advanced workspace control.
+            </p>
+          </div>
+          <div class="pricing-cta-stack">
+            <button class="button primary" data-route="editor">Start editing free</button>
+            <button class="button secondary" data-route="contact">Talk to Lumix</button>
+          </div>
+        </div>
+
+        <div class="pricing-grid">
+          <article class="pricing-card pricing-card-current reveal">
+            <p class="eyebrow">Free</p>
+            <h3>$0</h3>
+            <p class="pricing-copy">Try the editor, test signature looks, and save your first projects.</p>
+            <ul class="pricing-list">
+              <li>3 guest analyses before sign-in</li>
+              <li>Starter dashboard projects included</li>
+              <li>Core effects and PNG export</li>
+              <li>Local project history</li>
+            </ul>
+            <button class="button secondary full-width" data-route="editor">Use Free</button>
+          </article>
+          <article class="pricing-card pricing-card-featured reveal">
+            <div class="pricing-badge">Most popular</div>
+            <p class="eyebrow">Pro</p>
+            <h3>$19<span>/month</span></h3>
+            <p class="pricing-copy">For creators who want deeper control, more saves, and a workspace that feels production ready.</p>
+            <ul class="pricing-list">
+              <li>Unlimited image analyses</li>
+              <li>Unlimited saved projects</li>
+              <li>Priority export presets and mobile compare tools</li>
+              <li>Advanced effect stacks and saved looks</li>
+            </ul>
+            <button class="button primary full-width" data-route="contact">Upgrade to Pro</button>
+          </article>
+          <article class="pricing-card reveal">
+            <p class="eyebrow">Studio</p>
+            <h3>Custom</h3>
+            <p class="pricing-copy">For teams who want brand-ready templates, shared workflows, and a custom rollout plan.</p>
+            <ul class="pricing-list">
+              <li>Shared editing workspace</li>
+              <li>Team onboarding and custom presets</li>
+              <li>Priority support and rollout help</li>
+              <li>Custom onboarding call</li>
+            </ul>
+            <button class="button secondary full-width" data-route="contact">Talk to sales</button>
+          </article>
+        </div>
+
+        <section class="pricing-compare reveal">
+          <div class="section-row">
+            <h3>Feature comparison</h3>
+          </div>
+          <div class="pricing-table">
+            <div class="pricing-table-row pricing-table-head">
+              <span>Feature</span>
+              <span>Free</span>
+              <span>Pro</span>
+              <span>Studio</span>
+            </div>
+            <div class="pricing-table-row">
+              <span>Core effects</span>
+              <span>Yes</span>
+              <span>Yes</span>
+              <span>Yes</span>
+            </div>
+            <div class="pricing-table-row">
+              <span>Saved projects</span>
+              <span>Starter + limited</span>
+              <span>Unlimited</span>
+              <span>Unlimited</span>
+            </div>
+            <div class="pricing-table-row">
+              <span>Advanced workflows</span>
+              <span>No</span>
+              <span>Yes</span>
+              <span>Yes</span>
+            </div>
+            <div class="pricing-table-row">
+              <span>Team setup</span>
+              <span>No</span>
+              <span>No</span>
+              <span>Yes</span>
+            </div>
+          </div>
+        </section>
+      </section>
+
       <section class="editor-view route-view is-hidden" data-view="editor">
         <div class="section-heading editor-heading">
           <div>
@@ -552,6 +736,16 @@
               <span class="dropzone-title">Drop your image here</span>
               <span class="dropzone-copy">Animated drag zone with live preview support.</span>
             </label>
+
+            <div class="look-prompt-card">
+              <label>
+                <span>Describe a look</span>
+                <textarea id="lookPromptInput" rows="3"
+                  placeholder="e.g. make it feel like a moody blue poster with glowing edges"></textarea>
+              </label>
+              <button id="applyLookPromptButton" class="button primary full-width" type="button">Apply described look</button>
+              <p id="lookPromptStatus" class="inline-status"></p>
+            </div>
 
             <div class="control-group">
               <label>
@@ -602,6 +796,23 @@
             </div>
 
             <canvas id="previewCanvas" width="1440" height="1080" aria-label="Image preview"></canvas>
+
+            <div class="compare-module">
+              <div id="editorCompareShell" class="compare-shell compare-shell-editor">
+                <canvas id="editorCompareBeforeCanvas" width="1440" height="1080"
+                  aria-label="Original image comparison canvas"></canvas>
+                <div class="compare-after-mask">
+                  <canvas id="editorCompareAfterCanvas" width="1440" height="1080"
+                    aria-label="Edited image comparison canvas"></canvas>
+                </div>
+                <div class="compare-divider"></div>
+                <span class="compare-badge before">Before</span>
+                <span class="compare-badge after">After</span>
+                <input id="editorCompareSlider" class="compare-range compare-range-large" type="range" min="0" max="100"
+                  value="58" aria-label="Compare original and edited image" />
+              </div>
+              <p class="compare-hint">Drag to compare the result or swipe left and right over the preview to switch effects.</p>
+            </div>
 
             <div class="effect-meta">
               <div class="meta-card">
