@@ -958,7 +958,11 @@ h3 {
   box-shadow: 0 14px 24px rgba(50, 84, 243, 0.3);
 }
 
-.compare-range-large::-webkit-slider-thumb,
+.compare-range-large::-webkit-slider-thumb {
+  width: 32px;
+  height: 32px;
+}
+
 .compare-range-large::-moz-range-thumb {
   width: 32px;
   height: 32px;
@@ -2327,6 +2331,8 @@ canvas {
     linear-gradient(135deg, rgba(79, 114, 255, 0.08), rgba(98, 197, 255, 0.05)),
     var(--panel);
   box-shadow: var(--shadow);
+}
+
 .effect-gallery-summary strong {
   display: block;
   margin-bottom: 6px;
@@ -3561,6 +3567,579 @@ canvas {
   .trust-row {
     display: grid;
     gap: 10px;
+  }
+}
+
+.landing-stage,
+.landing-proof,
+.landing-values,
+.landing-showcase,
+.landing-workflow,
+.contact-section {
+  width: min(1220px, 100%);
+  margin-inline: auto;
+}
+
+.landing-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.landing-copy,
+.landing-demo,
+.landing-proof-note,
+.landing-value-card,
+.landing-showcase-card,
+.landing-workflow-main,
+.landing-step-card,
+.landing-contact-copy,
+.contact-form-card,
+.newsletter-card {
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  background: var(--panel);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--shadow);
+}
+
+.landing-copy,
+.landing-demo,
+.landing-value-card,
+.landing-showcase-card,
+.landing-workflow-main,
+.landing-step-card,
+.landing-contact-copy,
+.contact-form-card,
+.newsletter-card {
+  padding: 28px;
+}
+
+.landing-copy {
+  display: grid;
+  align-content: center;
+  gap: 18px;
+  min-height: 100%;
+}
+
+.hero {
+  padding: 30px 0 12px;
+}
+
+.hero h1 {
+  max-width: 11ch;
+  font-size: clamp(3.8rem, 7vw, 6.6rem);
+  line-height: 0.9;
+  letter-spacing: -0.07em;
+  text-wrap: balance;
+}
+
+.hero-lead {
+  max-width: 54ch;
+  margin: 0;
+  font-size: 1.06rem;
+  line-height: 1.7;
+}
+
+.landing-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.landing-metric-card {
+  padding: 16px 18px;
+  border-radius: 22px;
+  border: 1px solid var(--line);
+  background: var(--panel-strong);
+  display: grid;
+  gap: 8px;
+}
+
+.landing-metric-card strong {
+  font-size: 1.4rem;
+  letter-spacing: -0.05em;
+}
+
+.landing-metric-card span {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.landing-demo {
+  display: grid;
+  gap: 18px;
+}
+
+.hero-demo-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.compare-shell-large {
+  min-height: 520px;
+  border-radius: 30px 30px 0 0;
+  border-inline: 0;
+  border-top: 0;
+}
+
+.hero-demo-toolbar {
+  padding: 24px 24px 26px;
+}
+
+.hero-demo-toolbar-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: end;
+}
+
+.hero-demo-toolbar-head h2 {
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  line-height: 0.98;
+}
+
+.hero-demo-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--panel-strong);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.landing-section-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 20px;
+  align-items: end;
+  margin-bottom: 20px;
+}
+
+.landing-section-head h2,
+.landing-workflow-main h2,
+.landing-contact-copy h2 {
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  line-height: 0.94;
+  letter-spacing: -0.06em;
+  text-wrap: balance;
+}
+
+.landing-section-lead {
+  max-width: 60ch;
+  margin-top: 12px;
+  color: var(--muted);
+  line-height: 1.72;
+}
+
+.landing-proof {
+  display: grid;
+  gap: 18px;
+  padding-top: 22px;
+}
+
+.landing-proof-note {
+  padding: 24px;
+  display: grid;
+  gap: 10px;
+  background:
+    linear-gradient(135deg, rgba(79, 114, 255, 0.08), rgba(98, 197, 255, 0.05)),
+    var(--panel);
+}
+
+.landing-proof-note strong {
+  font-size: 1.4rem;
+  letter-spacing: -0.04em;
+}
+
+.landing-proof-note span {
+  color: var(--muted);
+  line-height: 1.62;
+}
+
+.landing-proof-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.effect-proof-card {
+  display: grid;
+  gap: 18px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.effect-proof-feature {
+  grid-column: span 2;
+  grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+  align-items: stretch;
+}
+
+.effect-proof-feature .mini-compare {
+  min-height: 360px;
+}
+
+.effect-proof-copy {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+}
+
+.effect-proof-copy h3 {
+  font-size: clamp(1.5rem, 2vw, 2.1rem);
+  letter-spacing: -0.04em;
+}
+
+.effect-proof-copy p {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.effect-proof-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.effect-proof-pill,
+.effect-proof-tags span,
+.landing-workflow-pills span,
+.landing-contact-points span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--panel-strong);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.effect-proof-pill {
+  color: white;
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+}
+
+.effect-proof-tags,
+.landing-workflow-pills,
+.landing-contact-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.compare-range-compact {
+  left: 16px;
+  right: 16px;
+  bottom: 14px;
+  width: calc(100% - 32px);
+}
+
+.compare-range-compact::-webkit-slider-runnable-track {
+  height: 8px;
+}
+
+.compare-range-compact::-moz-range-track {
+  height: 8px;
+}
+
+.compare-range-compact::-webkit-slider-thumb {
+  width: 24px;
+  height: 24px;
+  margin-top: -8px;
+}
+
+.compare-range-compact::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+}
+
+.landing-values {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  padding-top: 18px;
+}
+
+.landing-value-card {
+  display: grid;
+  gap: 10px;
+}
+
+.landing-value-card strong {
+  font-size: 1.35rem;
+  letter-spacing: -0.04em;
+}
+
+.landing-value-card p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.landing-showcase {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  padding-top: 18px;
+}
+
+.landing-showcase-card {
+  display: grid;
+  gap: 20px;
+  overflow: hidden;
+}
+
+.landing-showcase-card img {
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  object-fit: cover;
+  border-radius: 22px;
+  border: 1px solid var(--line);
+}
+
+.landing-showcase-copy {
+  display: grid;
+  gap: 10px;
+}
+
+.landing-showcase-copy h3 {
+  font-size: clamp(1.45rem, 2vw, 2rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.landing-showcase-copy p:last-child {
+  color: var(--muted);
+  line-height: 1.62;
+}
+
+.landing-workflow {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: 18px;
+  padding-top: 20px;
+}
+
+.landing-workflow-main {
+  display: grid;
+  gap: 18px;
+  background:
+    linear-gradient(135deg, rgba(79, 114, 255, 0.08), rgba(98, 197, 255, 0.05)),
+    var(--panel);
+}
+
+.landing-step-list {
+  display: grid;
+  gap: 18px;
+}
+
+.landing-step-card {
+  display: grid;
+  gap: 8px;
+}
+
+.landing-step-card span:first-child {
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.landing-step-card strong {
+  font-size: 1.35rem;
+  letter-spacing: -0.04em;
+}
+
+.landing-step-card p {
+  color: var(--muted);
+  line-height: 1.62;
+}
+
+.contact-section {
+  display: grid;
+  gap: 18px;
+  padding-top: 20px;
+}
+
+.landing-contact-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  gap: 18px;
+}
+
+.landing-contact-copy {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+}
+
+.newsletter-card {
+  display: grid;
+  gap: 18px;
+}
+
+.newsletter-copy {
+  display: grid;
+  gap: 8px;
+}
+
+.footer-links {
+  justify-content: center;
+}
+
+@media (max-width: 1140px) {
+  .landing-stage,
+  .landing-section-head,
+  .landing-workflow,
+  .landing-contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .landing-proof-grid,
+  .landing-values,
+  .landing-showcase {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .effect-proof-feature {
+    grid-column: span 2;
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .landing-stage,
+  .landing-proof,
+  .landing-values,
+  .landing-showcase,
+  .landing-workflow,
+  .contact-section {
+    width: 100%;
+  }
+
+  .landing-copy,
+  .landing-demo,
+  .landing-value-card,
+  .landing-showcase-card,
+  .landing-workflow-main,
+  .landing-step-card,
+  .landing-contact-copy,
+  .contact-form-card,
+  .newsletter-card,
+  .landing-proof-note,
+  .effect-proof-card {
+    padding: 20px;
+    border-radius: 24px;
+  }
+
+  .hero {
+    padding-top: 18px;
+  }
+
+  .hero h1 {
+    max-width: none;
+    font-size: clamp(2.7rem, 12vw, 4.1rem);
+  }
+
+  .landing-metrics,
+  .landing-proof-grid,
+  .landing-values,
+  .landing-showcase {
+    grid-template-columns: 1fr;
+  }
+
+  .effect-proof-feature {
+    grid-column: auto;
+  }
+
+  .compare-shell-large {
+    min-height: 360px;
+  }
+
+  .hero-demo-toolbar {
+    padding: 18px 18px 20px;
+  }
+
+  .hero-demo-toolbar-head {
+    display: grid;
+    gap: 10px;
+  }
+
+  .hero-demo-pill {
+    justify-self: start;
+  }
+
+  .landing-section-head h2,
+  .landing-workflow-main h2,
+  .landing-contact-copy h2 {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+
+  .effect-proof-copy .button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .landing-showcase-card img {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (max-width: 560px) {
+  .landing-copy,
+  .landing-demo,
+  .landing-value-card,
+  .landing-showcase-card,
+  .landing-workflow-main,
+  .landing-step-card,
+  .landing-contact-copy,
+  .contact-form-card,
+  .newsletter-card,
+  .landing-proof-note,
+  .effect-proof-card {
+    padding: 16px;
+    border-radius: 22px;
+  }
+
+  .landing-metric-card {
+    padding: 14px 16px;
+  }
+
+  .compare-shell-large,
+  .mini-compare {
+    min-height: 290px;
+  }
+
+  .compare-range {
+    left: 14px;
+    right: 14px;
+    width: calc(100% - 28px);
+    bottom: 12px;
+  }
+
+  .landing-section-lead,
+  .effect-proof-copy p,
+  .landing-step-card p,
+  .landing-value-card p,
+  .landing-showcase-copy p:last-child {
+    font-size: 0.94rem;
+    line-height: 1.58;
   }
 }
 

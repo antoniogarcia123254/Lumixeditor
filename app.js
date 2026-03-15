@@ -288,6 +288,7 @@ function init() {
   bindForms();
   bindAppChrome();
   bindLandingDemo();
+  bindEffectGalleryCompares();
   bindMicroInteractions();
   bindPressFeedback();
   restoreAuth();
@@ -359,6 +360,18 @@ function bindLandingDemo() {
     () => cycleHeroDemo(1),
     () => cycleHeroDemo(-1)
   );
+}
+
+function bindEffectGalleryCompares() {
+  document.querySelectorAll(".compare-range-compact").forEach((input) => {
+    const shell = input.closest("[data-compare-shell]");
+    setComparePosition(shell, input.value);
+
+    input.addEventListener("input", (event) => {
+      const nextShell = event.currentTarget.closest("[data-compare-shell]");
+      setComparePosition(nextShell, event.currentTarget.value);
+    });
+  });
 }
 
 function bindAuth() {
