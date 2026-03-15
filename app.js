@@ -186,7 +186,6 @@ const state = {
   loadedRemoteUrl: "",
   activeProjectId: null,
   activeHeroDemo: "duotone",
-  lookGrade: null,
 };
 
 const ui = {
@@ -199,6 +198,8 @@ const ui = {
   menuToggle: document.querySelector("#menuToggle"),
   topnav: document.querySelector(".topnav"),
   topImportButton: document.querySelector("#topImportButton"),
+  themeToggleLabel: document.querySelector("#themeToggleLabel"),
+  themeToggleIcon: document.querySelector("#themeToggleIcon"),
   dashboardImportButton: document.querySelector("#dashboardImportButton"),
   globalImageInput: document.querySelector("#globalImageInput"),
   editorImageInput: document.querySelector("#editorImageInput"),
@@ -208,9 +209,6 @@ const ui = {
   heroDemoCaption: document.querySelector("#heroDemoCaption"),
   heroDemoTabs: [...document.querySelectorAll("[data-demo-effect]")],
   dropzone: document.querySelector("#dropzone"),
-  lookPromptInput: document.querySelector("#lookPromptInput"),
-  applyLookPromptButton: document.querySelector("#applyLookPromptButton"),
-  lookPromptStatus: document.querySelector("#lookPromptStatus"),
   presetSelect: document.querySelector("#presetSelect"),
   presetPills: document.querySelector("#presetPills"),
   intensityRange: document.querySelector("#intensityRange"),
@@ -450,13 +448,6 @@ function bindEditor() {
   ui.dashboardImportButton.addEventListener("click", () => ui.globalImageInput.click());
   ui.globalImageInput.addEventListener("change", handleGlobalImport);
   ui.editorImageInput.addEventListener("change", handleEditorImport);
-  ui.applyLookPromptButton?.addEventListener("click", applyLookPrompt);
-  ui.lookPromptInput?.addEventListener("keydown", (event) => {
-    if ((event.metaKey || event.ctrlKey) && event.key === "Enter") {
-      event.preventDefault();
-      applyLookPrompt();
-    }
-  });
 
   ["dragenter", "dragover"].forEach((eventName) => {
     ui.dropzone.addEventListener(eventName, (event) => {
@@ -485,8 +476,10 @@ function bindEditor() {
   ui.detailRange.addEventListener("input", handleControlChange);
   ui.contrastRange.addEventListener("input", handleControlChange);
   ui.hueRange.addEventListener("input", handleControlChange);
-  ui.shadowColorInput.addEventListener("input", renderPreview);
-  ui.highlightColorInput.addEventListener("input", renderPreview);
+  ["input", "change"].forEach((eventName) => {
+    ui.shadowColorInput.addEventListener(eventName, renderPreview);
+    ui.highlightColorInput.addEventListener(eventName, renderPreview);
+  });
 
   ui.resetButton.addEventListener("click", resetEditor);
   ui.saveProjectButton.addEventListener("click", saveProject);
@@ -896,12 +889,7 @@ function resetEditor() {
   ui.hueRange.value = "8";
   ui.shadowColorInput.value = "#101a42";
   ui.highlightColorInput.value = "#4d7cff";
-  state.lookGrade = null;
   state.activeProjectId = null;
-  if (ui.lookPromptInput) {
-    ui.lookPromptInput.value = "";
-  }
-  setStatus(ui.lookPromptStatus, "");
   const base = new Image();
   base.onload = () => {
     state.sourceImage = base;
@@ -910,142 +898,6 @@ function resetEditor() {
   };
   base.src = state.originalDataUrl;
   updateControlReadouts();
-}
-
-function applyLookPrompt() {
-  const prompt = ui.lookPromptInput?.value.trim().toLowerCase() || "";
-  if (!prompt) {
-    setStatus(ui.lookPromptStatus, "Describe the look you want first.");
-    return;
-  }
-
-  const hasEffectRequest = /(pixel|8-bit|8 bit|retro game|arcade|glitch|broken|rgb|digital|signal|distort|vhs|retro|analog|scanline|tape|halftone|comic|newsprint|poster dots|ascii|terminal|code|text|dither|monochrome|two color|print|neon|glow|night|cyber|blueprint|technical|architect|schematic|drawing|thermal|infrared|heat|oil|paint|brush|mirror|kaleidoscope|tile|selective|color pop|keep red|keep blue|keep green)/.test(prompt);
-  const hasColorRequest = /(warm|sunset|orange|amber|gold|pink|magenta|rose|green|mint|lime|blue|cool|ice|natural|neutral|reset tint|remove tint)/.test(prompt);
-
-  const next = {
-    presetId: state.activePreset.id,
-    intensity: Number(ui.intensityRange.value),
-    detail: Number(ui.detailRange.value),
-    contrast: Number(ui.contrastRange.value),
-    hue: Number(ui.hueRange.value),
-    shadow: ui.shadowColorInput.value,
-    highlight: ui.highlightColorInput.value,
-  };
-
-  if (/(pixel|8-bit|8 bit|retro game|arcade)/.test(prompt)) {
-    next.presetId = "pixel";
-    next.intensity = 84;
-    next.detail = 20;
-    next.contrast = 18;
-  } else if (/(glitch|broken|rgb|digital|signal|distort)/.test(prompt)) {
-    next.presetId = "glitch";
-    next.intensity = 82;
-    next.detail = 18;
-    next.contrast = 12;
-  } else if (/(vhs|retro|analog|scanline|tape)/.test(prompt)) {
-    next.presetId = "vhs";
-    next.intensity = 76;
-    next.detail = 16;
-    next.contrast = 6;
-  } else if (/(halftone|comic|newsprint|poster dots)/.test(prompt)) {
-    next.presetId = "halftone";
-    next.intensity = 68;
-    next.detail = 16;
-    next.shadow = "#0f1732";
-    next.highlight = "#f4efe7";
-  } else if (/(ascii|terminal|code|text)/.test(prompt)) {
-    next.presetId = "ascii";
-    next.intensity = 64;
-    next.detail = 14;
-  } else if (/(dither|monochrome|two color|print)/.test(prompt)) {
-    next.presetId = "dither";
-    next.intensity = 66;
-    next.detail = 12;
-    next.shadow = "#10141f";
-    next.highlight = "#f5f2e8";
-  } else if (/(neon|glow|night|cyber)/.test(prompt)) {
-    next.presetId = "neon";
-    next.intensity = 82;
-    next.detail = 14;
-    next.contrast = 20;
-    next.shadow = "#050816";
-    next.highlight = "#65d8ff";
-  } else if (/(blueprint|technical|architect|schematic|drawing)/.test(prompt)) {
-    next.presetId = "blueprint";
-    next.intensity = 78;
-    next.detail = 18;
-    next.contrast = 18;
-    next.shadow = "#1b3d90";
-    next.highlight = "#cde3ff";
-  } else if (/(thermal|infrared|heat)/.test(prompt)) {
-    next.presetId = "thermal";
-    next.intensity = 80;
-    next.detail = 10;
-  } else if (/(oil|paint|brush)/.test(prompt)) {
-    next.presetId = "oil";
-    next.intensity = 70;
-    next.detail = 22;
-    next.contrast = 10;
-  } else if (/(mirror|kaleidoscope|tile)/.test(prompt)) {
-    next.presetId = "tile";
-    next.intensity = 72;
-    next.detail = 12;
-  } else if (/(selective|color pop|keep red|keep blue|keep green)/.test(prompt)) {
-    next.presetId = "selective";
-    next.intensity = 70;
-    next.detail = 24;
-  }
-
-  if (/(warm|sunset|orange|amber|gold)/.test(prompt)) {
-    next.highlight = "#ffb25a";
-    next.shadow = "#20133c";
-    next.hue = 32;
-    state.lookGrade = { color: "#ffb25a", opacity: 0.14, mode: "soft-light" };
-  } else if (/(pink|magenta|rose)/.test(prompt)) {
-    next.highlight = "#ff72d3";
-    next.shadow = "#22103b";
-    next.hue = 332;
-    state.lookGrade = { color: "#ff72d3", opacity: 0.16, mode: "soft-light" };
-  } else if (/(green|mint|lime)/.test(prompt)) {
-    next.highlight = "#76ffb1";
-    next.shadow = "#112d24";
-    next.hue = 128;
-    state.lookGrade = { color: "#76ffb1", opacity: 0.15, mode: "soft-light" };
-  } else if (/(blue|cool|ice)/.test(prompt)) {
-    next.highlight = "#78d4ff";
-    next.shadow = "#101a42";
-    next.hue = 206;
-    state.lookGrade = { color: "#4d7cff", opacity: 0.18, mode: "soft-light" };
-  } else if (/(natural|neutral|reset tint|remove tint)/.test(prompt)) {
-    state.lookGrade = null;
-  } else if (hasEffectRequest && !hasColorRequest) {
-    state.lookGrade = null;
-  }
-
-  if (/(soft|subtle)/.test(prompt)) {
-    next.intensity = Math.max(44, next.intensity - 18);
-    next.contrast = Math.max(0, next.contrast - 8);
-  }
-
-  if (/(strong|bold|dramatic|intense)/.test(prompt)) {
-    next.intensity = Math.min(96, next.intensity + 12);
-    next.contrast = Math.min(32, next.contrast + 10);
-  }
-
-  ui.intensityRange.value = String(next.intensity);
-  ui.detailRange.value = String(next.detail);
-  ui.contrastRange.value = String(next.contrast);
-  ui.hueRange.value = String(next.hue);
-  ui.shadowColorInput.value = next.shadow;
-  ui.highlightColorInput.value = next.highlight;
-  updateControlReadouts();
-  setPreset(next.presetId);
-  setStatus(ui.lookPromptStatus, `Applied ${state.activePreset.name} from your description.`);
-
-  if (state.user) {
-    logActivity("prompt", `Applied a described look with ${state.activePreset.name}`);
-    refreshDashboard();
-  }
 }
 
 function setComparePosition(shell, value) {
@@ -1201,22 +1053,7 @@ function renderPreview() {
     default:
       drawBaseImage(state.sourceImage, ctx, ui.previewCanvas);
   }
-
-  applyLookGrade();
   syncEditorCompareCanvases();
-}
-
-function applyLookGrade() {
-  if (!state.lookGrade) {
-    return;
-  }
-
-  ctx.save();
-  ctx.globalAlpha = state.lookGrade.opacity;
-  ctx.globalCompositeOperation = state.lookGrade.mode;
-  ctx.fillStyle = state.lookGrade.color;
-  ctx.fillRect(0, 0, ui.previewCanvas.width, ui.previewCanvas.height);
-  ctx.restore();
 }
 
 function getIntensity() {
@@ -1587,8 +1424,6 @@ function saveProject() {
     thumbnail: ui.previewCanvas.toDataURL("image/png"),
     original: state.originalDataUrl,
     settings: getCurrentEditorSettings(),
-    lookGrade: state.lookGrade,
-    lookPrompt: ui.lookPromptInput?.value.trim() || "",
   };
 
   const nextProjects = [project, ...projects.filter((item) => item.id !== project.id)].slice(0, 24);
@@ -1740,10 +1575,6 @@ function openProject(projectId) {
     state.originalDataUrl = project.original || project.thumbnail;
     state.activeProjectId = project.id;
     applyEditorSettings(project.settings);
-    state.lookGrade = project.lookGrade || null;
-    if (ui.lookPromptInput) {
-      ui.lookPromptInput.value = project.lookPrompt || "";
-    }
     setPreset(project.effectId || presets[0].id);
     routeTo("editor");
   };
@@ -1899,8 +1730,14 @@ function syncThemeToggle() {
   if (!ui.themeToggle) {
     return;
   }
-  ui.themeToggle.textContent = document.body.dataset.theme === "dark" ? "◐" : "◌";
-  ui.themeToggle.title = document.body.dataset.theme === "dark" ? "Switch to light mode" : "Switch to dark mode";
+  const isDark = document.body.dataset.theme === "dark";
+  if (ui.themeToggleLabel) {
+    ui.themeToggleLabel.textContent = isDark ? "Dark mode" : "Light mode";
+  }
+  if (ui.themeToggleIcon) {
+    ui.themeToggleIcon.textContent = isDark ? "☾" : "☼";
+  }
+  ui.themeToggle.title = isDark ? "Switch to light mode" : "Switch to dark mode";
 }
 
 function projectsKey() {

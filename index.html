@@ -3,7 +3,8 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Lumix | image editor</title>
   <meta name="theme-color" content="#365CFF" />
   <link rel="icon"
@@ -47,9 +48,13 @@
 
       <div class="top-actions">
         <button id="searchButton" class="icon-chip" type="button" aria-label="Search">⌕</button>
-        <button id="themeToggle" class="icon-chip" type="button" aria-label="Theme">◌</button>
-        <button id="topImportButton" class="nav-button secondary">Edit</button>
-        <button id="authButton" class="nav-button primary">Sign In</button>
+        <button id="themeToggle" class="nav-button secondary theme-toggle-button" type="button"
+          aria-label="Switch color theme">
+          <span id="themeToggleIcon" class="theme-toggle-icon" aria-hidden="true"></span>
+          <span id="themeToggleLabel">Light</span>
+        </button>
+        <button id="topImportButton" class="nav-button primary nav-button-editor-cta">Edit Now</button>
+        <button id="authButton" class="nav-button secondary">Sign In</button>
       </div>
     </header>
 
@@ -736,16 +741,6 @@
               <span class="dropzone-title">Drop your image here</span>
               <span class="dropzone-copy">Animated drag zone with live preview support.</span>
             </label>
-
-            <div class="look-prompt-card">
-              <label>
-                <span>Describe a look</span>
-                <textarea id="lookPromptInput" rows="3"
-                  placeholder="e.g. make it feel like a moody blue poster with glowing edges"></textarea>
-              </label>
-              <button id="applyLookPromptButton" class="button primary full-width" type="button">Apply described look</button>
-              <p id="lookPromptStatus" class="inline-status"></p>
-            </div>
 
             <div class="control-group">
               <label>

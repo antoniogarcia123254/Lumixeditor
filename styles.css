@@ -84,6 +84,8 @@ body[data-theme="dark"] {
 
 html {
   scroll-behavior: smooth;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -102,6 +104,7 @@ body {
     radial-gradient(circle at 80% 15%, rgba(98, 197, 255, 0.1), transparent 18%),
     linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
   overflow-x: hidden;
+  width: 100%;
 }
 
 a,
@@ -549,6 +552,36 @@ body[data-theme="dark"] .topbar {
   transform: translate3d(var(--tx, 0), var(--ty, 0), 0);
 }
 
+.theme-toggle-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  padding-inline: 14px;
+  white-space: nowrap;
+}
+
+.theme-toggle-icon {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-size: 0.92rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.nav-button-editor-cta {
+  min-width: 188px;
+  padding: 14px 26px;
+  font-size: 1.02rem;
+  font-weight: 800;
+  justify-content: center;
+}
+
 .nav-button.primary,
 .button.primary {
   background: linear-gradient(135deg, var(--accent), var(--accent-strong));
@@ -842,15 +875,16 @@ h3 {
 }
 
 .compare-divider::after {
-  content: "↔";
+  content: "";
   position: absolute;
   left: 50%;
   top: 50%;
   z-index: 1;
-  font-size: 1rem;
-  font-weight: 800;
-  color: var(--accent-strong);
-  transform: translate(-50%, -52%);
+  width: 18px;
+  height: 18px;
+  background: center / contain no-repeat
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233254F3' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 7 3 12l5 5'/%3E%3Cpath d='M16 7l5 5-5 5'/%3E%3Cpath d='M4 12h16' opacity='.35'/%3E%3C/svg%3E");
+  transform: translate(-50%, -50%);
 }
 
 .compare-badge {
@@ -3194,10 +3228,6 @@ canvas {
     gap: 6px;
   }
 
-  #themeToggle {
-    display: none;
-  }
-
   .top-actions .nav-button {
     padding: 10px 12px;
     font-size: 0.88rem;
@@ -3247,6 +3277,290 @@ canvas {
   .pricing-card,
   .pricing-compare {
     padding: 16px;
+  }
+}
+
+@media (max-width: 980px) {
+  .app-shell {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 8px 10px 28px;
+  }
+
+  .topbar {
+    top: 8px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 14px;
+    border-radius: 28px;
+  }
+
+  .brand {
+    font-size: 1.05rem;
+  }
+
+  .topnav {
+    width: 100%;
+    margin: 0;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 4px;
+    gap: 8px;
+    scrollbar-width: none;
+  }
+
+  .topnav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .top-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  #searchButton {
+    display: none;
+  }
+
+  .theme-toggle-button {
+    width: 100%;
+    order: 2;
+  }
+
+  .nav-button-editor-cta {
+    grid-column: 1 / -1;
+    width: 100%;
+    min-width: 0;
+    order: 1;
+    padding: 16px 18px;
+    font-size: 1rem;
+  }
+
+  #authButton {
+    width: 100%;
+    order: 3;
+  }
+
+  .hero {
+    padding: 18px 0 6px;
+    text-align: left;
+  }
+
+  .hero-center {
+    width: 100%;
+    justify-items: stretch;
+  }
+
+  .hero-actions.centered {
+    justify-content: stretch;
+  }
+
+  .hero-actions .button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .trust-row {
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .moving-blocks {
+    display: none;
+  }
+
+  .homepage-grid-shell,
+  .effect-gallery-section,
+  .results-section,
+  .showcase-strip,
+  .workflow-board,
+  .contact-section,
+  .pricing-view {
+    width: 100%;
+    max-width: 100%;
+    padding-top: 12px;
+  }
+
+  .homepage-grid,
+  .effect-gallery-grid,
+  .results-section,
+  .showcase-strip,
+  .workflow-board,
+  .pricing-grid,
+  .dashboard-columns,
+  .recent-projects,
+  .project-grid,
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .hero-demo,
+  .hero-demo-card,
+  .hero-demo-copy,
+  .effect-demo-card,
+  .result-card,
+  .pricing-card,
+  .pricing-compare,
+  .home-card,
+  .showcase-tile,
+  .workflow-board-main,
+  .workflow-board-side,
+  .contact-banner,
+  .contact-form-card,
+  .newsletter-card,
+  .control-panel,
+  .preview-panel,
+  .stack-card,
+  .quick-card,
+  .stat-card,
+  .dashboard-hero-card,
+  .settings-card {
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .showcase-tile,
+  .effect-demo-card,
+  .result-card,
+  .pricing-card {
+    min-height: auto;
+  }
+
+  .showcase-tile {
+    display: grid;
+    gap: 14px;
+    padding: 18px;
+  }
+
+  .showcase-image {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    margin: 0;
+  }
+
+  .showcase-tile h3,
+  .showcase-tile p {
+    position: relative;
+    inset: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    transform: none;
+  }
+
+  .showcase-tile h3 {
+    font-size: clamp(2rem, 8vw, 2.7rem);
+  }
+
+  .showcase-tile p {
+    font-size: 0.96rem;
+    line-height: 1.55;
+  }
+
+  .compare-shell,
+  .mini-compare,
+  .compare-shell-editor {
+    min-height: 300px;
+    aspect-ratio: 4 / 5;
+  }
+
+  .pricing-table {
+    display: grid;
+    gap: 12px;
+    border: 0;
+    background: transparent;
+    overflow: visible;
+  }
+
+  .pricing-table-head {
+    display: none;
+  }
+
+  .pricing-table-row {
+    min-width: 0;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--panel);
+    padding: 16px;
+  }
+
+  .workflow-chip-row,
+  .workflow-meter-row,
+  .effect-meta {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 640px) {
+  .promo-strip,
+  .pattern-band {
+    display: none;
+  }
+
+  .app-shell {
+    padding: 8px 8px 24px;
+  }
+
+  .topbar {
+    padding: 12px;
+    border-radius: 24px;
+  }
+
+  .topnav {
+    gap: 6px;
+  }
+
+  .nav-link {
+    padding: 10px 12px;
+    font-size: 0.92rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.4rem, 12vw, 3.4rem);
+    line-height: 0.94;
+  }
+
+  .hero-lead {
+    font-size: 0.98rem;
+    line-height: 1.6;
+  }
+
+  .hero-demo-copy,
+  .hero-demo-card {
+    padding: 16px;
+  }
+
+  .compare-shell,
+  .mini-compare,
+  .compare-shell-editor {
+    min-height: 260px;
+  }
+
+  .compare-divider::before {
+    width: 38px;
+    height: 38px;
+  }
+
+  .compare-divider::after {
+    width: 16px;
+    height: 16px;
+  }
+
+  .trust-row {
+    display: grid;
+    gap: 10px;
   }
 }
 
