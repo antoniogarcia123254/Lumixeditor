@@ -8,6 +8,10 @@ const STORAGE_KEYS = {
 };
 
 const GUEST_ANALYSIS_LIMIT = 3;
+const EFFECT_COLOR_SYSTEM = {
+  shadow: "#0C1122",
+  highlight: "#BEE8FF",
+};
 
 const presets = [
   {
@@ -215,7 +219,6 @@ const ui = {
   menuToggle: document.querySelector("#menuToggle"),
   topnav: document.querySelector(".topnav"),
   topImportButton: document.querySelector("#topImportButton"),
-  themeToggleLabel: document.querySelector("#themeToggleLabel"),
   themeToggleIcon: document.querySelector("#themeToggleIcon"),
   dashboardImportButton: document.querySelector("#dashboardImportButton"),
   globalImageInput: document.querySelector("#globalImageInput"),
@@ -236,8 +239,6 @@ const ui = {
   contrastValue: document.querySelector("#contrastValue"),
   hueRange: document.querySelector("#hueRange"),
   hueValue: document.querySelector("#hueValue"),
-  shadowColorInput: document.querySelector("#shadowColorInput"),
-  highlightColorInput: document.querySelector("#highlightColorInput"),
   resetButton: document.querySelector("#resetButton"),
   beforeAfterButton: document.querySelector("#beforeAfterButton"),
   saveProjectButton: document.querySelector("#saveProjectButton"),
@@ -519,10 +520,6 @@ function bindEditor() {
   ui.detailRange.addEventListener("input", handleControlChange);
   ui.contrastRange.addEventListener("input", handleControlChange);
   ui.hueRange.addEventListener("input", handleControlChange);
-  ["input", "change"].forEach((eventName) => {
-    ui.shadowColorInput.addEventListener(eventName, renderPreview);
-    ui.highlightColorInput.addEventListener(eventName, renderPreview);
-  });
 
   ui.resetButton.addEventListener("click", resetEditor);
   ui.saveProjectButton.addEventListener("click", saveProject);
@@ -931,8 +928,6 @@ function resetEditor() {
   ui.detailRange.value = "12";
   ui.contrastRange.value = "10";
   ui.hueRange.value = "8";
-  ui.shadowColorInput.value = "#101a42";
-  ui.highlightColorInput.value = "#4d7cff";
   state.activeProjectId = null;
   const base = new Image();
   base.onload = () => {
@@ -1317,7 +1312,7 @@ function renderHalftone() {
   ctx.fillStyle = "#f7f2ec";
   ctx.fillRect(0, 0, ui.previewCanvas.width, ui.previewCanvas.height);
   const step = Math.max(6, getDetail() + 2);
-  const dotColor = hexToRgb(ui.shadowColorInput.value);
+  const dotColor = hexToRgb(EFFECT_COLOR_SYSTEM.shadow);
   for (let y = 0; y < temp.height; y += step) {
     for (let x = 0; x < temp.width; x += step) {
       const index = (y * temp.width + x) * 4;
@@ -1333,8 +1328,8 @@ function renderHalftone() {
 
 function renderDuotone() {
   const frame = getBaseImageData();
-  const shadow = hexToRgb(ui.shadowColorInput.value);
-  const highlight = hexToRgb(ui.highlightColorInput.value);
+  const shadow = hexToRgb(EFFECT_COLOR_SYSTEM.shadow);
+  const highlight = hexToRgb(EFFECT_COLOR_SYSTEM.highlight);
   forEachPixel(frame.data, (r, g, b, index, data) => {
     const luma = clamp((r + g + b) / 765 + getIntensity() * 0.08, 0, 1);
     const blend = blendColors(shadow, highlight, luma);
@@ -1394,8 +1389,8 @@ function renderVhs() {
 
 function renderDither() {
   const frame = getBaseImageData();
-  const dark = hexToRgb(ui.shadowColorInput.value);
-  const light = hexToRgb(ui.highlightColorInput.value);
+  const dark = hexToRgb(EFFECT_COLOR_SYSTEM.shadow);
+  const light = hexToRgb(EFFECT_COLOR_SYSTEM.highlight);
   const grayscale = new Float32Array(frame.width * frame.height);
 
   for (let i = 0, p = 0; i < frame.data.length; i += 4, p += 1) {
@@ -1494,8 +1489,8 @@ function renderNeon() {
   const frame = getBaseImageData();
   const width = frame.width;
   const height = frame.height;
-  const shadow = hexToRgb(ui.shadowColorInput.value);
-  const glow = hexToRgb(ui.highlightColorInput.value);
+  const shadow = hexToRgb(EFFECT_COLOR_SYSTEM.shadow);
+  const glow = hexToRgb(EFFECT_COLOR_SYSTEM.highlight);
   const output = ctx.createImageData(width, height);
 
   for (let y = 0; y < height; y += 1) {
@@ -1921,13 +1916,15 @@ function syncThemeToggle() {
     return;
   }
   const isDark = document.body.dataset.theme === "dark";
-  if (ui.themeToggleLabel) {
-    ui.themeToggleLabel.textContent = isDark ? "Dark mode" : "Light mode";
-  }
   if (ui.themeToggleIcon) {
-    ui.themeToggleIcon.textContent = isDark ? "☾" : "☼";
+    ui.themeToggleIcon.textContent = isDark ? "☀" : "☾";
+  }
+  if (ui.themeFooterButton) {
+    ui.themeFooterButton.textContent = isDark ? "☀" : "☾";
   }
   ui.themeToggle.title = isDark ? "Switch to light mode" : "Switch to dark mode";
+  ui.themeToggle.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
+  ui.themeFooterButton?.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
 }
 
 function projectsKey() {
@@ -2085,8 +2082,6 @@ function getCurrentEditorSettings() {
     detail: ui.detailRange.value,
     contrast: ui.contrastRange.value,
     hue: ui.hueRange.value,
-    shadow: ui.shadowColorInput.value,
-    highlight: ui.highlightColorInput.value,
   };
 }
 
@@ -2095,8 +2090,6 @@ function applyEditorSettings(settings = {}) {
   ui.detailRange.value = settings.detail || ui.detailRange.value;
   ui.contrastRange.value = settings.contrast || ui.contrastRange.value;
   ui.hueRange.value = settings.hue || ui.hueRange.value;
-  ui.shadowColorInput.value = settings.shadow || ui.shadowColorInput.value;
-  ui.highlightColorInput.value = settings.highlight || ui.highlightColorInput.value;
   updateControlReadouts();
 }
 
