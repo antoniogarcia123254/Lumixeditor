@@ -138,6 +138,16 @@ const DEMO_EFFECTS = {
   },
 };
 
+const SEARCH_ITEMS = [
+  { id: "landing", label: "Home", type: "Page", keywords: "home landing start" },
+  { id: "effects", label: "Effects", type: "Section", keywords: "effects transformations compare filters" },
+  { id: "workflow", label: "Workflow", type: "Section", keywords: "workflow process export save" },
+  { id: "pricing", label: "Pricing", type: "Page", keywords: "pricing plans pro upgrade" },
+  { id: "contact", label: "Contact", type: "Section", keywords: "contact form inquiry help" },
+  { id: "dashboard", label: "Dashboard", type: "Page", keywords: "dashboard projects workspace" },
+  { id: "editor", label: "Editor", type: "Page", keywords: "editor edit upload canvas" },
+];
+
 const STARTER_PROJECT_TEMPLATES = [
   {
     name: "Starter Pixel Poster",
@@ -195,6 +205,13 @@ const ui = {
   themeFooterButton: document.querySelector("#themeFooterButton"),
   searchButton: document.querySelector("#searchButton"),
   searchFooterButton: document.querySelector("#searchFooterButton"),
+  searchModal: document.querySelector("#searchModal"),
+  searchOverlay: document.querySelector("#searchOverlay"),
+  closeSearchButton: document.querySelector("#closeSearchButton"),
+  searchForm: document.querySelector("#searchForm"),
+  searchInput: document.querySelector("#searchInput"),
+  searchResults: document.querySelector("#searchResults"),
+  searchStatus: document.querySelector("#searchStatus"),
   menuToggle: document.querySelector("#menuToggle"),
   topnav: document.querySelector(".topnav"),
   topImportButton: document.querySelector("#topImportButton"),
@@ -282,6 +299,7 @@ const compareAfterCtx = ui.editorCompareAfterCanvas?.getContext("2d", { willRead
 function init() {
   buildPresetInputs();
   bindRoutes();
+  bindSearch();
   bindAuth();
   bindEditor();
   bindDashboard();
@@ -310,23 +328,7 @@ function bindAppChrome() {
   });
   ui.themeFooterButton?.addEventListener("click", () => ui.themeToggle.click());
 
-  ui.searchButton.addEventListener("click", () => {
-    const query = window.prompt("Jump to: home, effects, workflow, pricing, contact, dashboard, or editor");
-    if (!query) {
-      return;
-    }
-    const normalized = query.trim().toLowerCase();
-    const routeMap = {
-      home: "landing",
-      effects: "effects",
-      workflow: "workflow",
-      pricing: "pricing",
-      contact: "contact",
-      dashboard: "dashboard",
-      editor: "editor",
-    };
-    routeTo(routeMap[normalized] || "landing");
-  });
+  ui.searchButton.addEventListener("click", openSearchModal);
   ui.searchFooterButton?.addEventListener("click", () => ui.searchButton.click());
 
   ui.menuToggle?.addEventListener("click", () => {
@@ -346,10 +348,37 @@ function bindRoutes() {
   });
 }
 
+function bindSearch() {
+  ui.searchForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const firstResult = ui.searchResults?.querySelector("[data-search-index]");
+    if (firstResult) {
+      firstResult.click();
+    }
+  });
+
+  ui.searchInput?.addEventListener("input", () => {
+    renderSearchResults(ui.searchInput.value);
+  });
+
+  ui.searchOverlay?.addEventListener("click", closeSearchModal);
+  ui.closeSearchButton?.addEventListener("click", closeSearchModal);
+
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !ui.searchModal?.classList.contains("is-hidden")) {
+      closeSearchModal();
+    }
+  });
+
+  renderSearchResults("");
+}
+
 function bindLandingDemo() {
   ui.heroDemoSlider?.addEventListener("input", (event) => {
     setComparePosition(ui.heroDemoShell, event.target.value);
   });
+
+  bindCompareHandleDrag(ui.heroDemoShell, ui.heroDemoSlider);
 
   ui.heroDemoTabs.forEach((button) => {
     button.addEventListener("click", () => setHeroDemoEffect(button.dataset.demoEffect));
@@ -366,6 +395,7 @@ function bindEffectGalleryCompares() {
   document.querySelectorAll(".compare-range-compact").forEach((input) => {
     const shell = input.closest("[data-compare-shell]");
     setComparePosition(shell, input.value);
+    bindCompareHandleDrag(shell, input);
 
     input.addEventListener("input", (event) => {
       const nextShell = event.currentTarget.closest("[data-compare-shell]");
@@ -500,6 +530,7 @@ function bindEditor() {
   ui.editorCompareSlider?.addEventListener("input", (event) => {
     setComparePosition(ui.editorCompareShell, event.target.value);
   });
+  bindCompareHandleDrag(ui.editorCompareShell, ui.editorCompareSlider);
 
   ["mousedown", "touchstart"].forEach((eventName) => {
     ui.beforeAfterButton.addEventListener(eventName, () => {
@@ -918,6 +949,152 @@ function setComparePosition(shell, value) {
     return;
   }
   shell.style.setProperty("--compare-position", `${value}%`);
+  shell.querySelector(".compare-divider")?.setAttribute("aria-valuenow", `${value}`);
+}
+
+function bindCompareHandleDrag(shell, input) {
+  if (!shell || !input || shell.dataset.compareDragBound === "true") {
+    return;
+  }
+
+  const divider = shell.querySelector(".compare-divider");
+  if (!divider) {
+    return;
+  }
+
+  shell.dataset.compareDragBound = "true";
+  divider.setAttribute("role", "slider");
+  divider.setAttribute("aria-orientation", "horizontal");
+  divider.setAttribute("aria-valuemin", "0");
+  divider.setAttribute("aria-valuemax", "100");
+  divider.setAttribute("aria-valuenow", `${input.value}`);
+  divider.setAttribute("tabindex", "0");
+
+  const updateFromClientX = (clientX) => {
+    const rect = shell.getBoundingClientRect();
+    const clamped = Math.min(Math.max(clientX - rect.left, 0), rect.width);
+    const nextValue = Math.round((clamped / rect.width) * 100);
+    input.value = `${nextValue}`;
+    divider.setAttribute("aria-valuenow", `${nextValue}`);
+    setComparePosition(shell, nextValue);
+  };
+
+  const startDrag = (event) => {
+    event.preventDefault();
+    updateFromClientX(event.clientX);
+
+    const move = (moveEvent) => {
+      updateFromClientX(moveEvent.clientX);
+    };
+
+    const stop = () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", stop);
+      window.removeEventListener("pointercancel", stop);
+      document.body.classList.remove("is-comparing");
+    };
+
+    document.body.classList.add("is-comparing");
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", stop, { once: true });
+    window.addEventListener("pointercancel", stop, { once: true });
+  };
+
+  divider.addEventListener("pointerdown", startDrag);
+  divider.addEventListener("keydown", (event) => {
+    const step = event.shiftKey ? 10 : 4;
+    const currentValue = Number(input.value);
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      const nextValue = Math.max(0, currentValue - step);
+      input.value = `${nextValue}`;
+      divider.setAttribute("aria-valuenow", `${nextValue}`);
+      setComparePosition(shell, nextValue);
+    }
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      const nextValue = Math.min(100, currentValue + step);
+      input.value = `${nextValue}`;
+      divider.setAttribute("aria-valuenow", `${nextValue}`);
+      setComparePosition(shell, nextValue);
+    }
+  });
+}
+
+function getSearchItems() {
+  const effectItems = presets.map((preset) => ({
+    id: preset.id,
+    label: preset.name,
+    type: "Effect",
+    keywords: `${preset.name} ${preset.description} ${preset.useCase}`.toLowerCase(),
+  }));
+
+  return [...SEARCH_ITEMS, ...effectItems];
+}
+
+function openSearchModal() {
+  if (ui.searchInput) {
+    ui.searchInput.value = "";
+  }
+  ui.searchModal?.classList.remove("is-hidden");
+  ui.searchModal?.setAttribute("aria-hidden", "false");
+  renderSearchResults("");
+  window.setTimeout(() => ui.searchInput?.focus(), 40);
+}
+
+function closeSearchModal() {
+  ui.searchModal?.classList.add("is-hidden");
+  ui.searchModal?.setAttribute("aria-hidden", "true");
+}
+
+function renderSearchResults(query) {
+  if (!ui.searchResults || !ui.searchStatus) {
+    return;
+  }
+
+  const normalized = query.trim().toLowerCase();
+  const results = getSearchItems().filter((item) => {
+    if (!normalized) {
+      return true;
+    }
+    return `${item.label} ${item.type} ${item.keywords}`.toLowerCase().includes(normalized);
+  });
+
+  ui.searchResults.innerHTML = "";
+
+  if (!results.length) {
+    ui.searchStatus.textContent = "No results yet. Try editor, pricing, glitch, or workflow.";
+    return;
+  }
+
+  ui.searchStatus.textContent = normalized
+    ? `${results.length} result${results.length === 1 ? "" : "s"} found`
+    : "Search pages, sections, and Lumix effects.";
+
+  results.slice(0, 8).forEach((item, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "search-result";
+    button.dataset.searchIndex = `${index}`;
+    button.innerHTML = `
+      <span class="search-result-label">${item.label}</span>
+      <span class="search-result-type">${item.type}</span>
+    `;
+    button.addEventListener("click", () => applySearchResult(item));
+    ui.searchResults.append(button);
+  });
+}
+
+function applySearchResult(item) {
+  closeSearchModal();
+
+  if (item.type === "Effect") {
+    routeTo("editor");
+    setPreset(item.id);
+    return;
+  }
+
+  routeTo(item.id);
 }
 
 function syncEditorCompareCanvases(preserveAfter = false) {

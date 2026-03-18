@@ -834,6 +834,29 @@
     </main>
   </div>
 
+  <div id="searchModal" class="modal is-hidden" aria-hidden="true">
+    <div class="modal-overlay" id="searchOverlay"></div>
+    <div class="modal-card search-modal-card">
+      <div class="modal-topbar">
+        <div>
+          <p class="eyebrow">Search</p>
+          <h3>Search pages and effects</h3>
+        </div>
+        <button id="closeSearchButton" class="icon-button" type="button" aria-label="Close search">✕</button>
+      </div>
+
+      <form id="searchForm" class="search-form">
+        <label class="search-field">
+          <span class="sr-only">Search Lumix</span>
+          <input id="searchInput" type="search" placeholder="Search editor, pricing, glitch, workflow..." autocomplete="off" />
+        </label>
+      </form>
+
+      <p id="searchStatus" class="inline-status search-status">Search pages, sections, and Lumix effects.</p>
+      <div id="searchResults" class="search-results" role="listbox" aria-label="Search results"></div>
+    </div>
+  </div>
+
   <div id="authModal" class="modal is-hidden" aria-hidden="true">
     <div class="modal-overlay" id="authOverlay"></div>
     <div class="modal-card">
