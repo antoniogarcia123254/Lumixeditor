@@ -3745,9 +3745,9 @@ body[data-theme="dark"] .launch-pill-tag {
 
 .landing-stage {
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  gap: 24px;
-  align-items: start;
+  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+  gap: 28px;
+  align-items: stretch;
 }
 
 .landing-copy,
@@ -3802,8 +3802,20 @@ body[data-theme="dark"] .effect-proof-card {
 .landing-copy {
   display: grid;
   align-content: center;
-  gap: 18px;
+  gap: 20px;
   min-height: 100%;
+  min-width: 0;
+}
+
+.landing-demo,
+.effect-proof-card,
+.effect-proof-copy,
+.landing-showcase-card,
+.landing-showcase-copy,
+.landing-workflow-main,
+.landing-step-card,
+.landing-contact-copy {
+  min-width: 0;
 }
 
 .hero {
@@ -3811,18 +3823,68 @@ body[data-theme="dark"] .effect-proof-card {
 }
 
 .hero h1 {
-  max-width: 11ch;
-  font-size: clamp(3.8rem, 7vw, 6.6rem);
-  line-height: 0.9;
+  max-width: 10ch;
+  font-size: clamp(3.5rem, 6.4vw, 5.8rem);
+  line-height: 0.92;
   letter-spacing: -0.07em;
   text-wrap: balance;
 }
 
 .hero-lead {
-  max-width: 54ch;
+  max-width: 48ch;
   margin: 0;
   font-size: 1.06rem;
   line-height: 1.7;
+}
+
+.landing-edit-strip {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  background:
+    linear-gradient(135deg, rgba(79, 114, 255, 0.1), rgba(98, 197, 255, 0.05)),
+    var(--panel-strong);
+  box-shadow: var(--shadow);
+}
+
+body[data-theme="dark"] .landing-edit-strip {
+  border-color: rgba(190, 232, 255, 0.12);
+  background:
+    linear-gradient(135deg, rgba(61, 92, 242, 0.22), rgba(92, 193, 255, 0.08)),
+    linear-gradient(180deg, rgba(18, 24, 39, 0.98), rgba(12, 17, 31, 0.9));
+  box-shadow:
+    0 28px 52px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.landing-edit-strip-copy {
+  display: grid;
+  gap: 8px;
+}
+
+.landing-edit-strip-copy strong {
+  font-size: clamp(1.18rem, 1.8vw, 1.6rem);
+  letter-spacing: -0.04em;
+}
+
+.landing-edit-strip-copy span {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.landing-edit-strip-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.landing-edit-button {
+  min-width: 180px;
 }
 
 .landing-metrics {
@@ -3982,6 +4044,7 @@ body[data-theme="dark"] .effect-proof-card {
 .effect-proof-copy h3 {
   font-size: clamp(1.5rem, 2vw, 2.1rem);
   letter-spacing: -0.04em;
+  text-wrap: balance;
 }
 
 .effect-proof-copy p {
@@ -3994,6 +4057,7 @@ body[data-theme="dark"] .effect-proof-card {
   justify-content: space-between;
   gap: 12px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .effect-proof-pill,
@@ -4109,6 +4173,7 @@ body[data-theme="dark"] .landing-showcase-card img {
   font-size: clamp(1.45rem, 2vw, 2rem);
   line-height: 1.05;
   letter-spacing: -0.04em;
+  text-wrap: balance;
 }
 
 .landing-showcase-copy p:last-child {
@@ -4207,6 +4272,14 @@ body[data-theme="dark"] .landing-showcase-card img {
     grid-template-columns: 1fr;
   }
 
+  .landing-edit-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .landing-edit-strip-actions {
+    justify-content: flex-start;
+  }
+
   .landing-proof-grid,
   .landing-values,
   .landing-showcase {
@@ -4253,6 +4326,21 @@ body[data-theme="dark"] .landing-showcase-card img {
     font-size: clamp(2.7rem, 12vw, 4.1rem);
   }
 
+  .landing-edit-strip {
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .landing-edit-strip-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .landing-edit-strip-actions .button {
+    width: 100%;
+    justify-content: center;
+  }
+
   .landing-metrics,
   .landing-proof-grid,
   .landing-values,
@@ -4295,6 +4383,10 @@ body[data-theme="dark"] .landing-showcase-card img {
   .landing-showcase-card img {
     aspect-ratio: 4 / 3;
   }
+
+  .effect-proof-header {
+    align-items: flex-start;
+  }
 }
 
 @media (max-width: 560px) {
@@ -4315,6 +4407,14 @@ body[data-theme="dark"] .landing-showcase-card img {
 
   .landing-metric-card {
     padding: 14px 16px;
+  }
+
+  .landing-edit-strip {
+    padding: 16px;
+  }
+
+  .landing-edit-strip-copy strong {
+    font-size: 1.12rem;
   }
 
   .compare-shell-large,

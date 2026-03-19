@@ -219,6 +219,7 @@ const ui = {
   menuToggle: document.querySelector("#menuToggle"),
   topnav: document.querySelector(".topnav"),
   topImportButton: document.querySelector("#topImportButton"),
+  heroImportButton: document.querySelector("#heroImportButton"),
   themeToggleIcon: document.querySelector("#themeToggleIcon"),
   dashboardImportButton: document.querySelector("#dashboardImportButton"),
   globalImageInput: document.querySelector("#globalImageInput"),
@@ -489,6 +490,7 @@ function bindAuth() {
 
 function bindEditor() {
   ui.topImportButton.addEventListener("click", () => routeTo("editor"));
+  ui.heroImportButton?.addEventListener("click", () => ui.globalImageInput.click());
   ui.dashboardImportButton.addEventListener("click", () => ui.globalImageInput.click());
   ui.globalImageInput.addEventListener("change", handleGlobalImport);
   ui.editorImageInput.addEventListener("change", handleEditorImport);
