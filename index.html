@@ -44,7 +44,6 @@
         <button class="nav-link nav-link-editor" data-route="editor">Editor</button>
         <button class="nav-link" data-route="effects">Effects</button>
         <button class="nav-link" data-route="workflow">Workflow</button>
-        <button class="nav-link" data-route="pricing">Pricing</button>
         <button class="nav-link" data-route="contact">Contact</button>
       </nav>
 
@@ -79,7 +78,7 @@
               <div class="hero-actions">
                 <button class="button primary" data-route="editor">Open Editor</button>
                 <button id="heroImportButton" class="button secondary" type="button">Import Image</button>
-                <button class="button secondary" data-route="pricing">View Pricing</button>
+                <button class="button secondary" data-route="contact">Contact</button>
               </div>
 
               <div class="landing-metrics">
@@ -601,7 +600,7 @@
               <div class="header-actions">
                   <button class="button secondary" data-route="editor">New Edit</button>
                   <button class="button primary" id="dashboardImportButton">Import from Device</button>
-                  <button class="button secondary" data-route="pricing">View Pro plans</button>
+                  <button class="button secondary" data-route="contact">Contact</button>
                 </div>
               </div>
 
@@ -633,7 +632,7 @@
                 </div>
                 <div class="dashboard-hero-actions">
                   <button class="button primary" data-route="editor">Create new edit</button>
-                  <button class="button secondary" data-route="pricing">Compare plans</button>
+                  <button class="button secondary" data-dashboard-view="projects">View projects</button>
                 </div>
               </section>
 
@@ -665,9 +664,9 @@
                   <strong>Browse Filters</strong>
                   <span>Review the full effect catalog and use cases.</span>
                 </button>
-                <button class="quick-card" data-route="pricing">
-                  <strong>Pricing</strong>
-                  <span>See what Lumix Pro unlocks before you upgrade.</span>
+                <button class="quick-card" data-route="contact">
+                  <strong>Contact</strong>
+                  <span>Send a project brief or request a custom Lumix setup.</span>
                 </button>
                 <button class="quick-card" id="importUrlButton">
                   <strong>Import from URL</strong>
@@ -745,101 +744,6 @@
             </section>
           </div>
         </div>
-      </section>
-
-      <section class="pricing-view route-view is-hidden" data-view="pricing">
-        <div class="section-heading pricing-heading">
-          <div>
-            <p class="eyebrow">Pricing</p>
-            <h2>Choose the Lumix plan that fits your image workflow.</h2>
-            <p class="lead pricing-lead">
-              Start free, test the editing experience, and upgrade when you want more exports, more saved projects, and
-              more advanced workspace control.
-            </p>
-          </div>
-          <div class="pricing-cta-stack">
-            <button class="button primary" data-route="editor">Start editing free</button>
-            <button class="button secondary" data-route="contact">Talk to Lumix</button>
-          </div>
-        </div>
-
-        <div class="pricing-grid">
-          <article class="pricing-card pricing-card-current reveal">
-            <p class="eyebrow">Free</p>
-            <h3>$0</h3>
-            <p class="pricing-copy">Try the editor, test signature looks, and save your first projects.</p>
-            <ul class="pricing-list">
-              <li>3 guest analyses before sign-in</li>
-              <li>Starter dashboard projects included</li>
-              <li>Core effects and PNG export</li>
-              <li>Local project history</li>
-            </ul>
-            <button class="button secondary full-width" data-route="editor">Use Free</button>
-          </article>
-          <article class="pricing-card pricing-card-featured reveal">
-            <div class="pricing-badge">Most popular</div>
-            <p class="eyebrow">Pro</p>
-            <h3>$19<span>/month</span></h3>
-            <p class="pricing-copy">For creators who want deeper control, more saves, and a workspace that feels production ready.</p>
-            <ul class="pricing-list">
-              <li>Unlimited image analyses</li>
-              <li>Unlimited saved projects</li>
-              <li>Priority export presets and mobile compare tools</li>
-              <li>Advanced effect stacks and saved looks</li>
-            </ul>
-            <button class="button primary full-width" data-route="contact">Upgrade to Pro</button>
-          </article>
-          <article class="pricing-card reveal">
-            <p class="eyebrow">Studio</p>
-            <h3>Custom</h3>
-            <p class="pricing-copy">For teams who want brand-ready templates, shared workflows, and a custom rollout plan.</p>
-            <ul class="pricing-list">
-              <li>Shared editing workspace</li>
-              <li>Team onboarding and custom presets</li>
-              <li>Priority support and rollout help</li>
-              <li>Custom onboarding call</li>
-            </ul>
-            <button class="button secondary full-width" data-route="contact">Talk to sales</button>
-          </article>
-        </div>
-
-        <section class="pricing-compare reveal">
-          <div class="section-row">
-            <h3>Feature comparison</h3>
-          </div>
-          <div class="pricing-table">
-            <div class="pricing-table-row pricing-table-head">
-              <span>Feature</span>
-              <span>Free</span>
-              <span>Pro</span>
-              <span>Studio</span>
-            </div>
-            <div class="pricing-table-row">
-              <span>Core effects</span>
-              <span>Yes</span>
-              <span>Yes</span>
-              <span>Yes</span>
-            </div>
-            <div class="pricing-table-row">
-              <span>Saved projects</span>
-              <span>Starter + limited</span>
-              <span>Unlimited</span>
-              <span>Unlimited</span>
-            </div>
-            <div class="pricing-table-row">
-              <span>Advanced workflows</span>
-              <span>No</span>
-              <span>Yes</span>
-              <span>Yes</span>
-            </div>
-            <div class="pricing-table-row">
-              <span>Team setup</span>
-              <span>No</span>
-              <span>No</span>
-              <span>Yes</span>
-            </div>
-          </div>
-        </section>
       </section>
 
       <section class="editor-view route-view is-hidden" data-view="editor">
@@ -957,7 +861,7 @@
       <form id="searchForm" class="search-form">
         <label class="search-field">
           <span class="sr-only">Search Lumix</span>
-          <input id="searchInput" type="search" placeholder="Search editor, pricing, glitch, workflow..." autocomplete="off" />
+          <input id="searchInput" type="search" placeholder="Search editor, contact, glitch, workflow..." autocomplete="off" />
         </label>
       </form>
 

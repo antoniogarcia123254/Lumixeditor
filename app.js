@@ -146,7 +146,6 @@ const SEARCH_ITEMS = [
   { id: "landing", label: "Home", type: "Page", keywords: "home landing start" },
   { id: "effects", label: "Effects", type: "Section", keywords: "effects transformations compare filters" },
   { id: "workflow", label: "Workflow", type: "Section", keywords: "workflow process export save" },
-  { id: "pricing", label: "Pricing", type: "Page", keywords: "pricing plans pro upgrade" },
   { id: "contact", label: "Contact", type: "Section", keywords: "contact form inquiry help" },
   { id: "dashboard", label: "Dashboard", type: "Page", keywords: "dashboard projects workspace" },
   { id: "editor", label: "Editor", type: "Page", keywords: "editor edit upload canvas" },
@@ -1079,7 +1078,7 @@ function renderSearchResults(query) {
   ui.searchResults.innerHTML = "";
 
   if (!results.length) {
-    ui.searchStatus.textContent = "No results yet. Try editor, pricing, glitch, or workflow.";
+    ui.searchStatus.textContent = "No results yet. Try editor, contact, glitch, or workflow.";
     return;
   }
 
@@ -2044,7 +2043,7 @@ function getFavoriteFilter(projects, activity) {
 
 function bindMicroInteractions() {
   const targets = document.querySelectorAll(
-    ".button, .nav-button, .feature-card, .workflow-card, .hero-panel, .quick-card, .project-card, .control-panel, .preview-panel, .contact-card, .stat-card, .home-card, .effect-demo-card, .showcase-tile, .contact-banner, .contact-form-card, .newsletter-card, .dashboard-hero-card, .workflow-board-main, .workflow-board-side, .hero-demo-card, .result-card, .pricing-card, .pricing-compare"
+    ".button, .nav-button, .feature-card, .workflow-card, .hero-panel, .quick-card, .project-card, .control-panel, .preview-panel, .contact-card, .stat-card, .home-card, .effect-demo-card, .showcase-tile, .contact-banner, .contact-form-card, .newsletter-card, .dashboard-hero-card, .workflow-board-main, .workflow-board-side, .hero-demo-card, .result-card"
   );
 
   targets.forEach((element) => {
@@ -2083,7 +2082,7 @@ function bindCursorDot() {
   }
 
   const interactiveSelector =
-    "a, button, input, select, textarea, .home-card, .showcase-tile, .effect-demo-card, .quick-card, .project-card, .stat-card, .stack-card, .hero-demo-card, .pricing-card";
+    "a, button, input, select, textarea, .home-card, .showcase-tile, .effect-demo-card, .quick-card, .project-card, .stat-card, .stack-card, .hero-demo-card";
 
   window.addEventListener("pointermove", (event) => {
     ui.cursorDot.style.left = `${event.clientX}px`;
