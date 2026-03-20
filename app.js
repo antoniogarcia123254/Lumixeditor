@@ -200,6 +200,7 @@ const state = {
   loadedRemoteUrl: "",
   activeProjectId: null,
   activeHeroDemo: "duotone",
+  activeLandingEditorDemo: "pixel",
 };
 
 const ui = {
@@ -222,6 +223,7 @@ const ui = {
   heroImportButton: document.querySelector("#heroImportButton"),
   themeToggleIcon: document.querySelector("#themeToggleIcon"),
   dashboardImportButton: document.querySelector("#dashboardImportButton"),
+  landingEditorImportButton: document.querySelector("#landingEditorImportButton"),
   globalImageInput: document.querySelector("#globalImageInput"),
   editorImageInput: document.querySelector("#editorImageInput"),
   heroDemoShell: document.querySelector("#heroDemoShell"),
@@ -229,6 +231,13 @@ const ui = {
   heroDemoAfter: document.querySelector("#heroDemoAfter"),
   heroDemoCaption: document.querySelector("#heroDemoCaption"),
   heroDemoTabs: [...document.querySelectorAll("[data-demo-effect]")],
+  landingEditorEffectName: document.querySelector("#landingEditorEffectName"),
+  landingEditorPreviewImage: document.querySelector("#landingEditorPreviewImage"),
+  landingEditorPreviewTitle: document.querySelector("#landingEditorPreviewTitle"),
+  landingEditorPreviewDescription: document.querySelector("#landingEditorPreviewDescription"),
+  landingEditorPreviewUseCase: document.querySelector("#landingEditorPreviewUseCase"),
+  landingEditorPreviewStatus: document.querySelector("#landingEditorPreviewStatus"),
+  landingEditorTabs: [...document.querySelectorAll("[data-landing-editor-effect]")],
   dropzone: document.querySelector("#dropzone"),
   presetSelect: document.querySelector("#presetSelect"),
   presetPills: document.querySelector("#presetPills"),
@@ -308,12 +317,14 @@ function init() {
   bindForms();
   bindAppChrome();
   bindLandingDemo();
+  bindLandingEditorFeature();
   bindEffectGalleryCompares();
   bindMicroInteractions();
   bindPressFeedback();
   restoreAuth();
   createDefaultArtwork();
   setHeroDemoEffect(state.activeHeroDemo);
+  setLandingEditorEffect(state.activeLandingEditorDemo);
   applyTheme(getInitialTheme());
   updateControlReadouts();
   setComparePosition(ui.heroDemoShell, ui.heroDemoSlider?.value || 58);
@@ -391,6 +402,14 @@ function bindLandingDemo() {
     () => cycleHeroDemo(1),
     () => cycleHeroDemo(-1)
   );
+}
+
+function bindLandingEditorFeature() {
+  ui.landingEditorImportButton?.addEventListener("click", () => ui.globalImageInput.click());
+
+  ui.landingEditorTabs.forEach((button) => {
+    button.addEventListener("click", () => setLandingEditorEffect(button.dataset.landingEditorEffect));
+  });
 }
 
 function bindEffectGalleryCompares() {
@@ -1136,6 +1155,41 @@ function setHeroDemoEffect(effectId) {
 
   ui.heroDemoTabs.forEach((button) => {
     button.classList.toggle("is-active", button.dataset.demoEffect === state.activeHeroDemo);
+  });
+}
+
+function setLandingEditorEffect(effectId) {
+  const nextDemo = DEMO_EFFECTS[effectId] || DEMO_EFFECTS.pixel;
+  const nextPreset = presets.find((preset) => preset.id === nextDemo.presetId) || presets[0];
+  state.activeLandingEditorDemo = nextPreset.id;
+
+  if (ui.landingEditorEffectName) {
+    ui.landingEditorEffectName.textContent = nextPreset.name;
+  }
+
+  if (ui.landingEditorPreviewImage) {
+    ui.landingEditorPreviewImage.src = nextDemo.src;
+    ui.landingEditorPreviewImage.alt = `${nextPreset.name} preview on the Lumix homepage`;
+  }
+
+  if (ui.landingEditorPreviewTitle) {
+    ui.landingEditorPreviewTitle.textContent = nextPreset.name;
+  }
+
+  if (ui.landingEditorPreviewDescription) {
+    ui.landingEditorPreviewDescription.textContent = nextPreset.description;
+  }
+
+  if (ui.landingEditorPreviewUseCase) {
+    ui.landingEditorPreviewUseCase.textContent = nextPreset.useCase;
+  }
+
+  if (ui.landingEditorPreviewStatus) {
+    ui.landingEditorPreviewStatus.textContent = `Previewing ${nextPreset.name}`;
+  }
+
+  ui.landingEditorTabs.forEach((button) => {
+    button.classList.toggle("is-active", button.dataset.landingEditorEffect === state.activeLandingEditorDemo);
   });
 }
 

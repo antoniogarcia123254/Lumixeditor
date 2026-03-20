@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>Lumixeditor — Free Online Photo Editor with Creative Filters</title>
+  <title>Lumix - Free Online Photo Editor with Creative Filters</title>
   <meta name="description"
     content="Free browser-based photo editor. Apply creative filters and effects instantly — no download, no signup required." />
   <meta name="theme-color" content="#365CFF" />
@@ -30,7 +30,7 @@
 
   <div class="app-shell">
     <div class="promo-strip">
-      <p>Free online photo editor with live effects, moving previews, and export-ready edits that feel fun to use.</p>
+      <p>Free online photo editor with creative filters, live compare previews, and export-ready PNG edits.</p>
     </div>
 
     <header class="topbar">
@@ -64,34 +64,21 @@
         <section class="hero">
           <div class="landing-stage">
             <div class="landing-copy reveal">
-              <div class="landing-edit-strip">
-                <div class="landing-edit-strip-copy">
-                  <p class="eyebrow">Start Editing</p>
-                  <strong>Open the editor or import an image right away.</strong>
-                  <span>The homepage now leads directly into editing instead of making people hunt for it.</span>
-                </div>
-                <div class="landing-edit-strip-actions">
-                  <button class="button primary landing-edit-button" data-route="editor">Open editor now</button>
-                  <button id="heroImportButton" class="button secondary" type="button">Import image</button>
-                </div>
-              </div>
-
               <div class="launch-pill">
                 <span class="launch-pill-tag">New</span>
-                <span>Live compare previews, pro effects, and export-ready edits in one browser workspace.</span>
+                <span>Live compare previews, bold effects, and browser editing without a cluttered workflow.</span>
               </div>
 
               <p class="eyebrow hero-eyebrow">Lumix / free online photo editor</p>
               <h1>Free Online Photo Editor — Creative Filters in Your Browser</h1>
               <p class="lead hero-lead">
-                Lumix is a free online photo editor built for stylized, fun image transformations instead of boring
-                correction-first workflows. Upload fast, switch effects live, compare the change, and jump from import
-                to export in one playful browser workspace.
+                Edit photos in the browser with pixel, glitch, neon, blueprint, and duotone looks. Import fast,
+                preview the transformation instantly, and export a clean PNG without downloading a heavy desktop app.
               </p>
 
               <div class="hero-actions">
                 <button class="button primary" data-route="editor">Open Editor</button>
-                <button class="button secondary" data-route="dashboard">Open Dashboard</button>
+                <button id="heroImportButton" class="button secondary" type="button">Import Image</button>
                 <button class="button secondary" data-route="pricing">View Pricing</button>
               </div>
 
@@ -160,6 +147,121 @@
               <span>ASCII Canvas</span>
               <span>Neon Glow</span>
             </div>
+          </div>
+        </section>
+
+        <section class="landing-editor-feature">
+          <div class="landing-editor-feature-head reveal">
+            <div>
+              <p class="eyebrow">Mainpage editor</p>
+              <h2>Start editing from the homepage with a real editor-style workspace.</h2>
+              <p class="landing-section-lead">
+                This section mirrors the editor experience: import a file, preview a creative effect, and jump into the
+                full canvas when you want deeper control.
+              </p>
+            </div>
+            <div class="inline-actions landing-editor-feature-actions">
+              <button class="button secondary editor-action-button landing-editor-head-action" data-route="editor" type="button">
+                <span class="editor-action-label">Save Project</span>
+                <span class="editor-action-note">Store this edit in your dashboard</span>
+              </button>
+              <button class="button primary editor-action-button landing-editor-head-action" data-route="editor" type="button">
+                <span class="editor-action-label">Download PNG</span>
+                <span class="editor-action-note">Export the current canvas instantly</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="landing-editor-feature-grid">
+            <aside class="landing-editor-panel landing-editor-controls reveal">
+              <label class="upload-dropzone landing-editor-dropzone" for="globalImageInput">
+                <span class="dropzone-title">Drop your image here</span>
+                <span class="dropzone-copy">Click to upload or jump straight into the editor with one import.</span>
+              </label>
+
+              <div class="landing-editor-control-list">
+                <div class="landing-editor-control-row landing-editor-select-row">
+                  <span>Effect</span>
+                  <strong id="landingEditorEffectName">Pixel Studio</strong>
+                </div>
+
+                <div class="landing-editor-control-row">
+                  <div class="landing-editor-control-label">
+                    <span>Intensity</span>
+                    <strong>72</strong>
+                  </div>
+                  <div class="landing-editor-scale">
+                    <span style="width: 72%"></span>
+                  </div>
+                </div>
+
+                <div class="landing-editor-control-row">
+                  <div class="landing-editor-control-label">
+                    <span>Detail</span>
+                    <strong>12</strong>
+                  </div>
+                  <div class="landing-editor-scale">
+                    <span style="width: 44%"></span>
+                  </div>
+                </div>
+
+                <div class="landing-editor-control-row">
+                  <div class="landing-editor-control-label">
+                    <span>Contrast</span>
+                    <strong>10</strong>
+                  </div>
+                  <div class="landing-editor-scale">
+                    <span style="width: 56%"></span>
+                  </div>
+                </div>
+
+                <div class="landing-editor-control-row">
+                  <div class="landing-editor-control-label">
+                    <span>Color Pop Hue</span>
+                    <strong>8</strong>
+                  </div>
+                  <div class="landing-editor-scale">
+                    <span style="width: 28%"></span>
+                  </div>
+                </div>
+              </div>
+
+              <div id="landingEditorTabs" class="demo-effect-tabs landing-editor-tabs" aria-label="Homepage editor effects">
+                <button class="demo-effect-tab is-active" type="button" data-landing-editor-effect="pixel">Pixel Studio</button>
+                <button class="demo-effect-tab" type="button" data-landing-editor-effect="glitch">Glitch</button>
+                <button class="demo-effect-tab" type="button" data-landing-editor-effect="duotone">Duotone</button>
+                <button class="demo-effect-tab" type="button" data-landing-editor-effect="blueprint">Blueprint Draft</button>
+              </div>
+
+              <div class="landing-editor-cta-row">
+                <button class="button primary" data-route="editor" type="button">Open full editor</button>
+                <button id="landingEditorImportButton" class="button secondary" type="button">Import image</button>
+              </div>
+            </aside>
+
+            <article class="landing-editor-panel landing-editor-preview reveal">
+              <div class="preview-topbar">
+                <div>
+                  <p class="eyebrow">Live Preview</p>
+                  <h3 id="landingEditorPreviewTitle">Pixel Studio</h3>
+                </div>
+                <p id="landingEditorPreviewStatus" class="status-pill">Previewing current effect</p>
+              </div>
+
+              <img id="landingEditorPreviewImage" class="landing-editor-preview-image" src="./demo-pixel.svg"
+                alt="Pixel Studio preview on the Lumix homepage" />
+
+              <div class="effect-meta">
+                <div class="meta-card">
+                  <span>Effect overview</span>
+                  <p id="landingEditorPreviewDescription">Turn photographs into clean grid-based pixel compositions with adjustable block size.</p>
+                </div>
+                <div class="meta-card">
+                  <span>Best use case</span>
+                  <p id="landingEditorPreviewUseCase">Gaming visuals, posters, album art, avatars, and stylized campaigns.</p>
+                </div>
+              </div>
+            </article>
           </div>
         </section>
 
